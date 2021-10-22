@@ -1,0 +1,26 @@
+<RCC>
+  <qresource>
+    <file>assets/ic_message_24px.svg</file>
+    <file>assets/sikh.jpg</file>
+    <file>assets/uxceo-128.jpg</file>
+    <file>uis/appbarsettingsform.ui</file>
+    <file>uis/avatarsettingsform.ui</file>
+    <file>uis/badgesettingsform.ui</file>
+    <file>uis/checkboxsettingsform.ui</file>
+    <file>uis/circularprogresssettingsform.ui</file>
+    <file>uis/desktop.ini</file>
+    <file>uis/dialogsettingsform.ui</file>
+    <file>uis/drawersettingsform.ui</file>
+    <file>uis/fabsettingsform.ui</file>
+    <file>uis/flatbuttonsettingsform.ui</file>
+    <file>uis/iconbuttonsettingsform.ui</file>
+    <file>uis/progresssettingsform.ui</file>
+    <file>uis/radiobuttonsettingsform.ui</file>
+    <file>uis/scrollbarsettingsform.ui</file>
+    <file>uis/slidersettingsform.ui</file>
+    <file>uis/snackbarsettingsform.ui</file>
+    <file>uis/tabssettingsform.ui</file>
+    <file>uis/textfieldsettingsform.ui</file>
+    <file>uis/togglesettingsform.ui</file>
+  </qresource>
+</RCC>
