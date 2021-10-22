@@ -120,6 +120,8 @@ class QtMaterialTextFieldStateMachine(QStateMachine):
 
         self.m_textField.update()
 
+    progress = Q_PROPERTY(qreal, fset=setProgress, fget=progress)
+
 
 class QtMaterialTextFieldPrivate:
     def __init__(self, q: QtMaterialTextField):
@@ -227,7 +229,7 @@ class QtMaterialTextField(QLineEdit):
         self.d.stateMachine.setupProperties()
 
     def labelColor(self) -> QColor:
-        if (self.d.useThemeColors or not self.d.labelColor.isValid()):
+        if self.d.useThemeColors or not self.d.labelColor.isValid():
             return QtMaterialStyle.instance().themeColor("accent3")
         else:
             return self.d.labelColor
@@ -313,6 +315,10 @@ class QtMaterialTextField(QLineEdit):
                 w: int = (1 - progress) * (wd / 2)
                 painter.drawRect(w + 2.5, self.height() - 2, wd - w * 2, 2)
 
+    textColor = Q_PROPERTY(QColor, fset=setTextColor, fget=textColor)
+    inkColor = Q_PROPERTY(QColor, fset=setInkColor, fget=inkColor)
+    inputLineColor = Q_PROPERTY(QColor, fset=setInputLineColor, fget=inputLineColor)
+
 
 class QtMaterialTextFieldLabel(QWidget):
     def __init__(self, parent: QtMaterialTextField):
@@ -363,3 +369,7 @@ class QtMaterialTextFieldLabel(QWidget):
 
         pos = QPointF(2 + self.m_posX, self.height() - 36 + self.m_posY)
         painter.drawText(pos.x(), pos.y(), self.m_textField.label())
+
+    scale = Q_PROPERTY(qreal, fset=setScale, fget=scale)
+    offset = Q_PROPERTY(QPointF, fset=setOffset, fget=offset)
+    color = Q_PROPERTY(QColor, fset=setColor, fget=color)

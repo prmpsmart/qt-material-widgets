@@ -109,6 +109,8 @@ class QtMaterialDrawerStateMachine(QStateMachine):
         self.m_openingState.assignProperty(self.m_drawer, "offset", 0)
         self.m_openingState.assignProperty(self, "opacity", 0.4)
 
+    opacity = Q_PROPERTY(qreal, fset=setOpacity, fget=opacity)
+
 
 class QtMaterialDrawerWidget(QtMaterialOverlayWidget):
     def __init__(self, parent: QWidget = None):
@@ -154,6 +156,8 @@ class QtMaterialDrawerWidget(QtMaterialOverlayWidget):
         return QtMaterialOverlayWidget.overlayGeometry(self).translated(
             self.m_offset, 0
         )
+
+    offset = Q_PROPERTY(int, fset=setOffset, fget=offset)
 
 
 class QtMaterialDrawerPrivate:

@@ -49,7 +49,7 @@ class QtMaterialToggleThumb(QWidget):
             self.setGeometry(self.m_toggle.rect().adjusted(8, 8, -8, -8))
             self.updateOffset()
 
-        return QWidget.eventFilter(obj, event)
+        return QWidget.eventFilter(self, obj, event)
 
     def paintEvent(self, event: QPaintEvent) -> void:
         painter = QPainter(self)
@@ -85,6 +85,9 @@ class QtMaterialToggleThumb(QWidget):
         self.m_offset = self.m_shift * s.width() - s.height()
         self.update()
 
+    shift = Q_PROPERTY(qreal, fset=setShift, fget=shift)
+    thumbColor = Q_PROPERTY(QColor, fset=setThumbColor, fget=thumbColor)
+
 
 class QtMaterialToggleTrack(QWidget):
     def __init__(self, parent: QtMaterialToggle):
@@ -92,7 +95,7 @@ class QtMaterialToggleTrack(QWidget):
         self.m_toggle = parent
         self.m_trackColor = QColor()
 
-        self.parent.installEventFilter(self)
+        parent.installEventFilter(self)
 
     def setTrackColor(self, color: QColor) -> void:
         self.m_trackColor = color
@@ -107,7 +110,7 @@ class QtMaterialToggleTrack(QWidget):
         if QEvent.Resize == type or QEvent.Move == type:
             self.setGeometry(self.m_toggle.rect())
 
-        return QWidget.eventFilter(obj, event)
+        return QWidget.eventFilter(self, obj, event)
 
     def paintEvent(self, event: QPaintEvent) -> void:
         painter = QPainter(self)
@@ -133,6 +136,8 @@ class QtMaterialToggleTrack(QWidget):
             w: int = self.width() / 2
             r = QRect(w / 2, 0, w, self.height())
             painter.drawRoundedRect(r.adjusted(4, 14, -4, -14), w / 2 - 4, w / 2 - 4)
+
+    trackColor = Q_PROPERTY(QColor, fset=setTrackColor, fget=trackColor)
 
 
 class QtMaterialToggleRippleOverlay(QtMaterialRippleOverlay):
@@ -180,7 +185,7 @@ class QtMaterialToggleRippleOverlay(QtMaterialRippleOverlay):
             for i in items:
                 i.setColor(color)
 
-        return QtMaterialRippleOverlay.eventFilter(obj, event)
+        return QtMaterialRippleOverlay.eventFilter(self, obj, event)
 
     def overlayGeometry(self) -> QRect:
         offset: qreal = self.m_thumb.offset()
@@ -192,19 +197,19 @@ class QtMaterialToggleRippleOverlay(QtMaterialRippleOverlay):
 
 class QtMaterialTogglePrivate:
     def __init__(self, q: QtMaterialToggle):
-        self.q = q
-        self.track = QtMaterialToggleTrack()
-        self.thumb = QtMaterialToggleThumb()
-        self.rippleOverlay = QtMaterialToggleRippleOverlay()
-        self.stateMachine = QStateMachine()
-        self.offState = QState()
-        self.onState = QState()
-        self.orientation = Qt()
-        self.disabledColor = QColor()
-        self.activeColor = QColor()
-        self.inactiveColor = QColor()
-        self.trackColor = QColor()
-        self.useThemeColors = bool()
+        self.q: QtMaterialToggle = q
+        self.track: QtMaterialToggleTrack = None
+        self.thumb: QtMaterialToggleThumb = None
+        self.rippleOverlay: QtMaterialToggleRippleOverlay = None
+        self.stateMachine: QStateMachine = None
+        self.offState: QState = None
+        self.onState: QState = None
+        self.orientation: Qt = None
+        self.disabledColor: QColor = QColor()
+        self.activeColor: QColor = QColor()
+        self.inactiveColor: QColor = QColor()
+        self.trackColor: QColor = QColor()
+        self.useThemeColors: bool = None
 
     def init(self) -> void:
         self.track = QtMaterialToggleTrack(self.q)
@@ -213,8 +218,8 @@ class QtMaterialTogglePrivate:
             self.thumb, self.track, self.q
         )
         self.stateMachine = QStateMachine(self.q)
-        self.offState = QState
-        self.onState = QState
+        self.offState = QState()
+        self.onState = QState()
         self.orientation = Qt.Horizontal
         self.useThemeColors = true
 
@@ -234,43 +239,21 @@ class QtMaterialTogglePrivate:
         self.offState.addTransition(transition)
 
         animation = QPropertyAnimation(self.q)
-        animation.setPropertyName("shift")
+        animation.setPropertyName(b"shift")
         animation.setTargetObject(self.thumb)
         animation.setDuration(200)
         animation.setEasingCurve(QEasingCurve.OutQuad)
         transition.addAnimation(animation)
+        print(self.thumb.dynamicPropertyNames())
 
         animation = QPropertyAnimation(self.q)
-        animation.setPropertyName("trackColor")
+        animation.setPropertyName(b"trackColor")
         animation.setTargetObject(self.track)
         animation.setDuration(150)
         transition.addAnimation(animation)
 
         animation = QPropertyAnimation(self.q)
-        animation.setPropertyName("thumbColor")
-        animation.setTargetObject(self.thumb)
-        animation.setDuration(150)
-        transition.addAnimation(animation)
-
-        transition = QSignalTransition(self.q.toggled)
-        transition.setTargetState(self.offState)
-        self.onState.addTransition(transition)
-
-        animation = QPropertyAnimation(self.q)
-        animation.setPropertyName("shift")
-        animation.setTargetObject(self.thumb)
-        animation.setDuration(200)
-        animation.setEasingCurve(QEasingCurve.OutQuad)
-        transition.addAnimation(animation)
-
-        animation = QPropertyAnimation(self.q)
-        animation.setPropertyName("trackColor")
-        animation.setTargetObject(self.track)
-        animation.setDuration(150)
-        transition.addAnimation(animation)
-
-        animation = QPropertyAnimation(self.q)
-        animation.setPropertyName("thumbColor")
+        animation.setPropertyName(b"thumbColor")
         animation.setTargetObject(self.thumb)
         animation.setDuration(150)
         transition.addAnimation(animation)
@@ -383,7 +366,12 @@ class QtMaterialToggle(QAbstractButton):
             if widget:
                 self.d.rippleOverlay.setParent(widget)
 
-        return QAbstractButton.event(event)
+        return QAbstractButton.event(self, event)
 
     def paintEvent(self, event: QPaintEvent) -> void:
         ...
+
+    disabledColor = Q_PROPERTY(QColor, fset=setDisabledColor, fget=disabledColor)
+    activeColor = Q_PROPERTY(QColor, fset=setActiveColor, fget=activeColor)
+    inactiveColor = Q_PROPERTY(QColor, fset=setInactiveColor, fget=inactiveColor)
+    trackColor = Q_PROPERTY(QColor, fset=setTrackColor, fget=trackColor)

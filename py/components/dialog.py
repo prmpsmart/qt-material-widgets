@@ -1,21 +1,31 @@
 from .lib.qtmaterial import *
 
 
-class QtMaterialDialog: ...
-class QtMaterialDialogWindow: ...
+class QtMaterialDialog:
+    ...
+
+
+class QtMaterialDialogWindow:
+    ...
 
 
 class QtMaterialDialogProxy(QWidget):
-
     class TransparencyMode(enum.Enum):
         Transparent = enum.auto()
         SemiTransparent = enum.auto()
         Opaque = enum.auto()
+
     Transparent = TransparencyMode.Transparent
     SemiTransparent = TransparencyMode.SemiTransparent
     Opaque = TransparencyMode.Opaque
 
-    def __init__(self, source: QtMaterialDialogWindow, layout: QStackedLayout, dialog: QtMaterialDialog, parent: QWidget=None):
+    def __init__(
+        self,
+        source: QtMaterialDialogWindow,
+        layout: QStackedLayout,
+        dialog: QtMaterialDialog,
+        parent: QWidget = None,
+    ):
         QWidget.__init__(self, parent)
 
         self.m_source = source
@@ -51,7 +61,7 @@ class QtMaterialDialogProxy(QWidget):
     def event(self, event: QEvent) -> bool:
         type: QEvent.Type = event.type()
 
-        if (QEvent.Move == type or QEvent.Resize == type):
+        if QEvent.Move == type or QEvent.Resize == type:
             self.m_source.setGeometry(self.geometry())
 
         return QWidget.event(self, event)
@@ -59,18 +69,19 @@ class QtMaterialDialogProxy(QWidget):
     def paintEvent(self, event: QPaintEvent) -> void:
         painter = QPainter(self)
 
-        if (self.Transparent == self.m_mode):
+        if self.Transparent == self.m_mode:
             return
-        elif (self.Opaque != self.m_mode):
+        elif self.Opaque != self.m_mode:
             painter.setOpacity(self.m_opacity)
-        
+
         pm: QPixmap = self.m_source.grab(self.m_source.rect())
         painter.drawPixmap(0, 0, pm)
 
+    opacity = Q_PROPERTY(qreal, fset=setOpacity, fget=opacity)
+
 
 class QtMaterialDialogWindow(QWidget):
-
-    def __init__(self, dialog: QtMaterialDialog, parent: QWidget=None):
+    def __init__(self, dialog: QtMaterialDialog, parent: QWidget = None):
         QWidget.__init__(self, parent)
 
         self.m_dialog = dialog
@@ -93,9 +104,10 @@ class QtMaterialDialogWindow(QWidget):
         painter.setBrush(brush)
         painter.drawRect(self.rect())
 
+    offset = Q_PROPERTY(int, fset=setOffset, fget=offset)
+
 
 class QtMaterialDialogPrivate:
-
     def __init__(self, q: QtMaterialDialog):
 
         self.q = q
@@ -108,9 +120,9 @@ class QtMaterialDialogPrivate:
         q = self.q
 
         self.dialogWindow = QtMaterialDialogWindow(q)
-        self.proxyStack   = QStackedLayout()
+        self.proxyStack = QStackedLayout()
         self.stateMachine = QStateMachine(q)
-        self.proxy        = QtMaterialDialogProxy(self.dialogWindow, self.proxyStack, q)
+        self.proxy = QtMaterialDialogProxy(self.dialogWindow, self.proxyStack, q)
 
         layout = QVBoxLayout()
         self.q.setLayout(layout)
@@ -141,11 +153,15 @@ class QtMaterialDialogPrivate:
         self.stateMachine.addState(visibleState)
         self.stateMachine.setInitialState(hiddenState)
 
-        transition = QtMaterialStateTransition(QtMaterialStateTransitionType.DialogShowTransition)
+        transition = QtMaterialStateTransition(
+            QtMaterialStateTransitionType.DialogShowTransition
+        )
         transition.setTargetState(visibleState)
         hiddenState.addTransition(transition)
 
-        transition = QtMaterialStateTransition(QtMaterialStateTransitionType.DialogHideTransition)
+        transition = QtMaterialStateTransition(
+            QtMaterialStateTransitionType.DialogHideTransition
+        )
         transition.setTargetState(hiddenState)
         visibleState.addTransition(transition)
 
@@ -171,10 +187,18 @@ class QtMaterialDialogPrivate:
         animation.setEasingCurve(QEasingCurve.OutCirc)
         self.stateMachine.addDefaultAnimation(animation)
 
-        QObject.connect(visibleState, SIGNAL(self.propertiesAssigned()),
-                        self.proxy, SLOT(self.makeOpaque()))
-        QObject.connect(hiddenState, SIGNAL(self.propertiesAssigned()),
-                        self.proxy, SLOT(self.makeTransparent()))
+        QObject.connect(
+            visibleState,
+            SIGNAL(self.propertiesAssigned()),
+            self.proxy,
+            SLOT(self.makeOpaque()),
+        )
+        QObject.connect(
+            hiddenState,
+            SIGNAL(self.propertiesAssigned()),
+            self.proxy,
+            SLOT(self.makeTransparent()),
+        )
 
         self.stateMachine.start()
         QCoreApplication.processEvents()
@@ -185,9 +209,9 @@ class QtMaterialDialog(QtMaterialOverlayWidget):
     showDialog = Signal()
     hideDialog = Signal()
 
-    def __init__(self, parent: QWidget=None):
+    def __init__(self, parent: QWidget = None):
         QtMaterialOverlayWidget.__init__(self, parent)
-        
+
         self.d = QtMaterialDialogPrivate(self)
         self.d.init()
 
@@ -198,12 +222,20 @@ class QtMaterialDialog(QtMaterialOverlayWidget):
         self.d.dialogWindow.setLayout(layout)
 
     def showDialog(self) -> void:
-        self.d.stateMachine.postEvent(QtMaterialStateTransitionEvent(QtMaterialStateTransitionType.DialogShowTransition))
+        self.d.stateMachine.postEvent(
+            QtMaterialStateTransitionEvent(
+                QtMaterialStateTransitionType.DialogShowTransition
+            )
+        )
         self.raise_()
 
     def hideDialog(self) -> void:
 
-        self.d.stateMachine.postEvent(QtMaterialStateTransitionEvent(QtMaterialStateTransitionType.DialogHideTransition))
+        self.d.stateMachine.postEvent(
+            QtMaterialStateTransitionEvent(
+                QtMaterialStateTransitionType.DialogHideTransition
+            )
+        )
         self.setAttribute(Qt.WA_TransparentForMouseEvents)
         self.d.proxyStack.setCurrentIndex(1)
 
@@ -215,7 +247,5 @@ class QtMaterialDialog(QtMaterialOverlayWidget):
         brush.setColor(Qt.black)
         painter.setBrush(brush)
         painter.setPen(Qt.NoPen)
-        painter.setOpacity(self.d.proxy.opacity()/2.4)
+        painter.setOpacity(self.d.proxy.opacity() / 2.4)
         painter.drawRect(self.rect())
-
-

@@ -1,8 +1,8 @@
 from .lib.qtmaterial import *
 
 
-
-class QtMaterialFlatButton: ...
+class QtMaterialFlatButton:
+    ...
 
 
 class QtMaterialFlatButtonStateMachine(QStateMachine):
@@ -12,7 +12,7 @@ class QtMaterialFlatButtonStateMachine(QStateMachine):
 
     def __init__(self, parent: QtMaterialFlatButton):
         QStateMachine.__init__(self, parent)
-        
+
         self.m_button = parent
         self.m_topLevelState = QState(QState.ParallelStates)
         self.m_configState = QState(self.m_topLevelState)
@@ -28,20 +28,26 @@ class QtMaterialFlatButtonStateMachine(QStateMachine):
         self.m_overlayOpacity = qreal(0)
         self.m_checkedOverlayProgress = qreal(1 if parent and parent.isChecked else 0)
         self.m_haloOpacity = qreal(0)
-        self.m_haloSize = qreal(.8)
+        self.m_haloSize = qreal(0.8)
         self.m_haloScaleFactor = qreal(1)
         self.m_wasChecked = bool(false)
 
-        
-        if parent: parent.installEventFilter(self)
+        if parent:
+            parent.installEventFilter(self)
 
         self.m_configState.setInitialState(self.m_neutralState)
         self.addState(self.m_topLevelState)
         self.setInitialState(self.m_topLevelState)
 
-        self.m_checkableState.setInitialState(self.m_checkedState if parent and parent.isChecked() else self.m_uncheckedState)
+        self.m_checkableState.setInitialState(
+            self.m_checkedState
+            if parent and parent.isChecked()
+            else self.m_uncheckedState
+        )
 
-        transition = QtMaterialStateTransition(QtMaterialStateTransitionType.FlatButtonCheckedTransition)
+        transition = QtMaterialStateTransition(
+            QtMaterialStateTransitionType.FlatButtonCheckedTransition
+        )
         transition.setTargetState(self.m_checkedState)
         self.m_uncheckedState.addTransition(transition)
 
@@ -49,7 +55,9 @@ class QtMaterialFlatButtonStateMachine(QStateMachine):
         animation.setDuration(200)
         transition.addAnimation(animation)
 
-        transition = QtMaterialStateTransition(QtMaterialStateTransitionType.FlatButtonUncheckedTransition)
+        transition = QtMaterialStateTransition(
+            QtMaterialStateTransitionType.FlatButtonUncheckedTransition
+        )
         transition.setTargetState(self.m_uncheckedState)
         self.m_checkedState.addTransition(transition)
 
@@ -57,21 +65,61 @@ class QtMaterialFlatButtonStateMachine(QStateMachine):
         animation.setDuration(200)
         transition.addAnimation(animation)
 
-        self.addTransition(self.m_button, QEvent.FocusIn, self.m_neutralState, self.m_neutralFocusedState, )
-        self.addTransition(self.m_button, QEvent.FocusOut, self.m_neutralFocusedState, self.m_neutralState)
-        self.addTransition(self.m_button, QEvent.Enter, self.m_neutralState, self.m_hoveredState)
-        self.addTransition(self.m_button, QEvent.Leave, self.m_hoveredState, self.m_neutralState)
-        self.addTransition(self.m_button, QEvent.Enter, self.m_neutralFocusedState, self.m_hoveredFocusedState)
-        self.addTransition(self.m_button, QEvent.Leave, self.m_hoveredFocusedState, self.m_neutralFocusedState)
-        self.addTransition(self.m_button, QEvent.FocusIn, self.m_hoveredState, self.m_hoveredFocusedState)
-        self.addTransition(self.m_button, QEvent.FocusOut, self.m_hoveredFocusedState, self.m_hoveredState)
+        self.addTransition(
+            self.m_button,
+            QEvent.FocusIn,
+            self.m_neutralState,
+            self.m_neutralFocusedState,
+        )
+        self.addTransition(
+            self.m_button,
+            QEvent.FocusOut,
+            self.m_neutralFocusedState,
+            self.m_neutralState,
+        )
+        self.addTransition(
+            self.m_button, QEvent.Enter, self.m_neutralState, self.m_hoveredState
+        )
+        self.addTransition(
+            self.m_button, QEvent.Leave, self.m_hoveredState, self.m_neutralState
+        )
+        self.addTransition(
+            self.m_button,
+            QEvent.Enter,
+            self.m_neutralFocusedState,
+            self.m_hoveredFocusedState,
+        )
+        self.addTransition(
+            self.m_button,
+            QEvent.Leave,
+            self.m_hoveredFocusedState,
+            self.m_neutralFocusedState,
+        )
+        self.addTransition(
+            self.m_button,
+            QEvent.FocusIn,
+            self.m_hoveredState,
+            self.m_hoveredFocusedState,
+        )
+        self.addTransition(
+            self.m_button,
+            QEvent.FocusOut,
+            self.m_hoveredFocusedState,
+            self.m_hoveredState,
+        )
 
-        transition = QtMaterialStateTransition(QtMaterialStateTransitionType.FlatButtonPressedTransition)
+        transition = QtMaterialStateTransition(
+            QtMaterialStateTransitionType.FlatButtonPressedTransition
+        )
         transition.setTargetState(self.m_pressedState)
         self.m_hoveredState.addTransition(transition)
 
-        self.addTransition(self.m_button, QEvent.Leave, self.m_pressedState, self.m_neutralFocusedState)
-        self.addTransition(self.m_button, QEvent.FocusOut, self.m_pressedState, self.m_hoveredState)
+        self.addTransition(
+            self.m_button, QEvent.Leave, self.m_pressedState, self.m_neutralFocusedState
+        )
+        self.addTransition(
+            self.m_button, QEvent.FocusOut, self.m_pressedState, self.m_hoveredState
+        )
 
         self.m_neutralState.assignProperty(self, "haloSize", 0)
         self.m_neutralFocusedState.assignProperty(self, "haloSize", 0.7)
@@ -114,7 +162,9 @@ class QtMaterialFlatButtonStateMachine(QStateMachine):
     def checkedOverlayProgress(self) -> qreal:
         return self.m_checkedOverlayProgress
 
-    checkedOverlayProgress = Property(qreal, checkedOverlayProgress, setCheckedOverlayProgress)
+    checkedOverlayProgress = Property(
+        qreal, checkedOverlayProgress, setCheckedOverlayProgress
+    )
 
     def setHaloOpacity(self, opacity: qreal) -> void:
         self.m_haloOpacity = opacity
@@ -142,7 +192,7 @@ class QtMaterialFlatButtonStateMachine(QStateMachine):
         self.start()
 
     def setupProperties(self) -> void:
-        if (Qt.TransparentMode == self.m_button.backgroundMode()):
+        if Qt.TransparentMode == self.m_button.backgroundMode():
             overlayColor = self.m_button.backgroundColor()
         else:
             overlayColor = self.m_button.foregroundColor()
@@ -166,26 +216,45 @@ class QtMaterialFlatButtonStateMachine(QStateMachine):
 
     def updateCheckedStatus(self) -> void:
         checked: bool = self.m_button.isChecked()
-        if (self.m_wasChecked != checked):
+        if self.m_wasChecked != checked:
             self.m_wasChecked = checked
-            if (checked):
-                self.postEvent(QtMaterialStateTransitionEvent(QtMaterialStateTransitionType.FlatButtonCheckedTransition))
+            if checked:
+                self.postEvent(
+                    QtMaterialStateTransitionEvent(
+                        QtMaterialStateTransitionType.FlatButtonCheckedTransition
+                    )
+                )
             else:
-                self.postEvent(QtMaterialStateTransitionEvent(QtMaterialStateTransitionType.FlatButtonUncheckedTransition))
+                self.postEvent(
+                    QtMaterialStateTransitionEvent(
+                        QtMaterialStateTransitionType.FlatButtonUncheckedTransition
+                    )
+                )
 
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
-        if (QEvent.FocusIn == event.type()):
+        if QEvent.FocusIn == event.type():
             focusEvent: QFocusEvent = event
-            if (focusEvent and Qt.MouseFocusReason == focusEvent.reason()):
-                self.postEvent(QtMaterialStateTransitionEvent(QtMaterialStateTransitionType.FlatButtonPressedTransition))
+            if focusEvent and Qt.MouseFocusReason == focusEvent.reason():
+                self.postEvent(
+                    QtMaterialStateTransitionEvent(
+                        QtMaterialStateTransitionType.FlatButtonPressedTransition
+                    )
+                )
             return true
         return QStateMachine.eventFilter(watched, event)
 
-    def addTransition(self, object: QObject=None, eventType: QEvent.Type=None, fromState: QState=None, toState: QState=None, transition:QAbstractTransition=None) -> void:
+    def addTransition(
+        self,
+        object: QObject = None,
+        eventType: QEvent.Type = None,
+        fromState: QState = None,
+        toState: QState = None,
+        transition: QAbstractTransition = None,
+    ) -> void:
 
         if transition == None:
             transition = QEventTransition(object, eventType)
-        
+
         transition.setTargetState(toState)
 
         animation = QPropertyAnimation(self, b"overlayOpacity", self)
@@ -203,15 +272,16 @@ class QtMaterialFlatButtonStateMachine(QStateMachine):
 
         fromState.addTransition(transition)
 
-    overlayOpacity = Property(qreal, overlayOpacity, setOverlayOpacity)
-    haloOpacity = Property(qreal, haloOpacity, setHaloOpacity)
-    haloSize = Property(qreal, haloSize, setHaloSize)
-    haloScaleFactor = Property(qreal, haloScaleFactor, setHaloScaleFactor)
-
+    overlayOpacity = Q_PROPERTY(qreal, fset=setOverlayOpacity, fget=overlayOpacity)
+    checkedOverlayProgress = Q_PROPERTY(
+        qreal, fset=setCheckedOverlayProgress, fget=checkedOverlayProgress
+    )
+    haloOpacity = Q_PROPERTY(qreal, fset=setHaloOpacity, fget=haloOpacity)
+    haloSize = Q_PROPERTY(qreal, fset=setHaloSize, fget=haloSize)
+    haloScaleFactor = Q_PROPERTY(qreal, fset=setHaloScaleFactor, fget=haloScaleFactor)
 
 
 class QtMaterialFlatButtonPrivate:
-
     def __init__(self, q: QtMaterialFlatButton):
         self.q = q
         self.backgroundColor = QColor()
@@ -228,21 +298,21 @@ class QtMaterialFlatButtonPrivate:
         self.haloVisible = bool()
 
     def init(self) -> void:
-        self.stateMachine         = QtMaterialFlatButtonStateMachine(self.q)
-        self.rippleOverlay        = QtMaterialRippleOverlay(self.q)
-        self.role                 = Material.Default
-        self.rippleStyle          = Material.PositionedRipple
-        self.iconPlacement        = Material.LeftIcon
-        self.overlayStyle         = Material.GrayOverlay
-        self.bgMode               = Qt.TransparentMode
-        self.textAlignment        = Qt.AlignHCenter
-        self.fixedRippleRadius    = 64
-        self.cornerRadius         = 3
-        self.baseOpacity          = 0.13
-        self.fontSize             = 10 # 10.5
-        self.useThemeColors       = true
+        self.stateMachine = QtMaterialFlatButtonStateMachine(self.q)
+        self.rippleOverlay = QtMaterialRippleOverlay(self.q)
+        self.role = Material.Default
+        self.rippleStyle = Material.PositionedRipple
+        self.iconPlacement = Material.LeftIcon
+        self.overlayStyle = Material.GrayOverlay
+        self.bgMode = Qt.TransparentMode
+        self.textAlignment = Qt.AlignHCenter
+        self.fixedRippleRadius = 64
+        self.cornerRadius = 3
+        self.baseOpacity = 0.13
+        self.fontSize = 10  # 10.5
+        self.useThemeColors = true
         self.useFixedRippleRadius = false
-        self.haloVisible          = true
+        self.haloVisible = true
 
         self.q.setStyle(QtMaterialStyle.instance())
         self.q.setAttribute(Qt.WA_Hover)
@@ -261,11 +331,17 @@ class QtMaterialFlatButtonPrivate:
         self.stateMachine.startAnimations()
 
 
-
 class QtMaterialFlatButton(QPushButton):
     IconPadding = 12
 
-    def __init__(self, text: QString=None, role: Material.Role=None, parent: QWidget=None, preset: Material.ButtonPreset=Material.FlatPreset, d: QtMaterialFlatButtonPrivate=None):
+    def __init__(
+        self,
+        text: QString = None,
+        role: Material.Role = None,
+        parent: QWidget = None,
+        preset: Material.ButtonPreset = Material.FlatPreset,
+        d: QtMaterialFlatButtonPrivate = None,
+    ):
 
         QPushButton.__init__(self, text, parent)
 
@@ -273,7 +349,6 @@ class QtMaterialFlatButton(QPushButton):
         self.d.init()
         self.applyPreset(preset)
         self.setRole(role)
-
 
     def applyPreset(self, preset: Material.ButtonPreset) -> void:
         if preset == Material.FlatPreset:
@@ -284,7 +359,7 @@ class QtMaterialFlatButton(QPushButton):
             self.setHaloVisible(false)
 
     def setUseThemeColors(self, value: bool) -> void:
-        if (self.d.useThemeColors == value):
+        if self.d.useThemeColors == value:
             return
         self.d.useThemeColors = value
         self.d.stateMachine.setupProperties()
@@ -306,20 +381,19 @@ class QtMaterialFlatButton(QPushButton):
         self.update()
 
     def foregroundColor(self) -> QColor:
-        if (self.d.useThemeColors or not self.d.foregroundColor.isValid()):
-            if (Qt.OpaqueMode == self.d.bgMode):
+        if self.d.useThemeColors or not self.d.foregroundColor.isValid():
+            if Qt.OpaqueMode == self.d.bgMode:
                 return QtMaterialStyle.instance().themeColor("canvas")
-            
+
             role = self.d.role
             if role == Material.Primary:
                 return QtMaterialStyle.instance().themeColor("primary1")
             elif role == Material.Secondary:
                 return QtMaterialStyle.instance().themeColor("accent1")
-            else: # role == Material.Default:...
+            else:  # role == Material.Default:...
                 return QtMaterialStyle.instance().themeColor("text")
-        
-        return self.d.foregroundColor
 
+        return self.d.foregroundColor
 
     def setBackgroundColor(self, color: QColor) -> void:
         self.d.backgroundColor = color
@@ -328,17 +402,17 @@ class QtMaterialFlatButton(QPushButton):
         self.update()
 
     def backgroundColor(self) -> QColor:
-        if (self.d.useThemeColors or not self.d.backgroundColor.isValid()):
+        if self.d.useThemeColors or not self.d.backgroundColor.isValid():
             role = self.d.role
             if role == Material.Primary:
                 return QtMaterialStyle.instance().themeColor("primary1")
             elif role == Material.Secondary:
                 return QtMaterialStyle.instance().themeColor("accent1")
-            else: # role == Material.Default:
+            else:  # role == Material.Default:
                 return QtMaterialStyle.instance().themeColor("text")
         return self.d.backgroundColor
 
-    def setOverlayColor(self,  color: QColor) -> void:
+    def setOverlayColor(self, color: QColor) -> void:
         self.d.overlayColor = color
 
         MATERIAL_DISABLE_THEME_COLORS(self)
@@ -347,10 +421,9 @@ class QtMaterialFlatButton(QPushButton):
         self.update()
 
     def overlayColor(self) -> QColor:
-        if (self.d.useThemeColors or not self.d.overlayColor.isValid()):
+        if self.d.useThemeColors or not self.d.overlayColor.isValid():
             return self.foregroundColor()
         return self.d.overlayColor
-
 
     def setDisabledForegroundColor(self, color: QColor) -> void:
         self.d.disabledColor = color
@@ -359,7 +432,7 @@ class QtMaterialFlatButton(QPushButton):
         self.update()
 
     def disabledForegroundColor(self) -> QColor:
-        if (self.d.useThemeColors or not self.d.disabledColor.isValid()):
+        if self.d.useThemeColors or not self.d.disabledColor.isValid():
             return QtMaterialStyle.instance().themeColor("disabled")
         else:
             return self.d.disabledColor
@@ -371,11 +444,10 @@ class QtMaterialFlatButton(QPushButton):
         self.update()
 
     def disabledBackgroundColor(self) -> QColor:
-        if (self.d.useThemeColors or not self.d.disabledBackgroundColor.isValid()):
+        if self.d.useThemeColors or not self.d.disabledBackgroundColor.isValid():
             return QtMaterialStyle.instance().themeColor("disabled3")
         else:
             return self.d.disabledBackgroundColor
-
 
     def setFontSize(self, size: qreal) -> void:
         self.d.fontSize = size
@@ -466,10 +538,10 @@ class QtMaterialFlatButton(QPushButton):
 
         w: int = 20 + label.width()
         h: int = label.height()
-        if (not self.icon().isNull()):
+        if not self.icon().isNull():
             w += self.iconSize().width() + QtMaterialFlatButton.IconPadding
             h = max(h, self.iconSize().height())
-        
+
         return QSize(w, 20 + h)
 
     def checkStateSet(self) -> void:
@@ -478,17 +550,17 @@ class QtMaterialFlatButton(QPushButton):
         QPushButton.checkStateSet()
 
     def mousePressEvent(self, event: QMouseEvent) -> void:
-        if (Material.NoRipple != self.d.rippleStyle):
+        if Material.NoRipple != self.d.rippleStyle:
 
-            if (Material.CenteredRipple == self.d.rippleStyle):
+            if Material.CenteredRipple == self.d.rippleStyle:
                 pos = self.rect().center()
             else:
                 pos = event.pos()
 
-            if (self.d.useFixedRippleRadius):
+            if self.d.useFixedRippleRadius:
                 radiusEndValue = self.d.fixedRippleRadius
             else:
-                radiusEndValue = self.width()/2
+                radiusEndValue = self.width() / 2
 
             ripple = QtMaterialRipple(pos)
 
@@ -518,7 +590,7 @@ class QtMaterialFlatButton(QPushButton):
 
         cr: qreal = self.d.cornerRadius
 
-        if (cr > 0):
+        if cr > 0:
             path = QPainterPath()
             path.addRoundedRect(self.rect(), cr, cr)
 
@@ -533,14 +605,14 @@ class QtMaterialFlatButton(QPushButton):
 
         self.paintForeground(painter)
 
-    def paintBackground(self, painter: QPainter)-> void:
+    def paintBackground(self, painter: QPainter) -> void:
         overlayOpacity: qreal = self.d.stateMachine.overlayOpacity()
         checkedProgress: qreal = self.d.stateMachine.checkedOverlayProgress()
 
-        if (Qt.OpaqueMode == self.d.bgMode):
+        if Qt.OpaqueMode == self.d.bgMode:
             brush = QBrush()
             brush.setStyle(Qt.SolidPattern)
-            if (self.isEnabled()):
+            if self.isEnabled():
                 brush.setColor(self.backgroundColor())
             else:
                 brush.setColor(self.disabledBackgroundColor())
@@ -553,37 +625,39 @@ class QtMaterialFlatButton(QPushButton):
         brush.setStyle(Qt.SolidPattern)
         painter.setPen(Qt.NoPen)
 
-        if (not self.isEnabled()):
+        if not self.isEnabled():
             return
 
-        if ((Material.NoOverlay != self.d.overlayStyle) and (overlayOpacity > 0)):
-            if (Material.TintedOverlay == self.d.overlayStyle):
+        if (Material.NoOverlay != self.d.overlayStyle) and (overlayOpacity > 0):
+            if Material.TintedOverlay == self.d.overlayStyle:
                 brush.setColor(self.overlayColor())
             else:
                 brush.setColor(Qt.gray)
-            
+
             painter.setOpacity(overlayOpacity)
             painter.setBrush(brush)
             painter.drawRect(self.rect())
 
-        if (self.isCheckable() and checkedProgress > 0):
+        if self.isCheckable() and checkedProgress > 0:
             q: qreal = 0.45 if Qt.TransparentMode == self.d.bgMode else 0.7
             brush.setColor(self.foregroundColor())
-            painter.setOpacity(q*checkedProgress)
+            painter.setOpacity(q * checkedProgress)
             painter.setBrush(brush)
             r = QRect(self.rect())
-            r.setHeight(r.height()*checkedProgress)
+            r.setHeight(r.height() * checkedProgress)
             painter.drawRect(r)
-        
-    def paintHalo(self, painter: QPainter)-> void:
-        if (not self.d.haloVisible):
+
+    def paintHalo(self, painter: QPainter) -> void:
+        if not self.d.haloVisible:
             return
 
         opacity: qreal = self.d.stateMachine.haloOpacity()
-        s: qreal = self.d.stateMachine.haloScaleFactor()*self.d.stateMachine.haloSize()
-        radius: qreal = self.width()*s
+        s: qreal = (
+            self.d.stateMachine.haloScaleFactor() * self.d.stateMachine.haloSize()
+        )
+        radius: qreal = self.width() * s
 
-        if (self.isEnabled() and opacity > 0):
+        if self.isEnabled() and opacity > 0:
             brush = QBrush()
             brush.setStyle(Qt.SolidPattern)
             brush.setColor(self.foregroundColor())
@@ -593,48 +667,65 @@ class QtMaterialFlatButton(QPushButton):
             center = self.rect().center()
             painter.drawEllipse(center, radius, radius)
 
-    def paintForeground(self, painter: QPainter)-> void:
-        if (self.isEnabled()):
+    def paintForeground(self, painter: QPainter) -> void:
+        if self.isEnabled():
             painter.setPen(self.foregroundColor())
             progress: qreal = self.d.stateMachine.checkedOverlayProgress()
-            if (self.isCheckable() and progress > 0):
+            if self.isCheckable() and progress > 0:
                 source: QColor = self.foregroundColor()
-                dest: QColor = Qt.white if Qt.TransparentMode == self.d.bgMode  else self.backgroundColor()
-                
+                dest: QColor = (
+                    Qt.white
+                    if Qt.TransparentMode == self.d.bgMode
+                    else self.backgroundColor()
+                )
+
                 def COLOR_INTERPOLATE(CH):
                     _source = getattr(source, CH)
                     _dest = getattr(dest, CH)
-                    return (1-progress)*_source() + progress*_dest()
+                    return (1 - progress) * _source() + progress * _dest()
 
-                if (qFuzzyCompare(1, progress)):
+                if qFuzzyCompare(1, progress):
                     painter.setPen(dest)
                 else:
-                    painter.setPen(QColor(COLOR_INTERPOLATE('red'),
-                                        COLOR_INTERPOLATE('green'),
-                                        COLOR_INTERPOLATE('blue'),
-                                        COLOR_INTERPOLATE('alpha')))
-                
+                    painter.setPen(
+                        QColor(
+                            COLOR_INTERPOLATE("red"),
+                            COLOR_INTERPOLATE("green"),
+                            COLOR_INTERPOLATE("blue"),
+                            COLOR_INTERPOLATE("alpha"),
+                        )
+                    )
+
         else:
             painter.setPen(self.disabledForegroundColor())
 
-        if (self.icon().isNull()):
-            if (Qt.AlignLeft == self.d.textAlignment):
-                painter.drawText(self.rect().adjusted(12, 0, 0, 0), Qt.AlignLeft | Qt.AlignVCenter, self.text())
+        if self.icon().isNull():
+            if Qt.AlignLeft == self.d.textAlignment:
+                painter.drawText(
+                    self.rect().adjusted(12, 0, 0, 0),
+                    Qt.AlignLeft | Qt.AlignVCenter,
+                    self.text(),
+                )
             else:
                 painter.drawText(self.rect(), Qt.AlignCenter, self.text())
-            
+
             return
 
         textSize = QSize(self.fontMetrics().size(Qt.TextSingleLine, self.text()))
-        base = QSize(self.size()-textSize)
+        base = QSize(self.size() - textSize)
 
         iw: int = self.iconSize().width() + self.IconPadding
-        pos = QPoint(12 if Qt.AlignLeft == self.d.textAlignment else (base.width()-iw)/2, 0)
+        pos = QPoint(
+            12 if Qt.AlignLeft == self.d.textAlignment else (base.width() - iw) / 2, 0
+        )
 
-        textGeometry = QRect(pos + QPoint(0, base.height()/2), textSize)
-        iconGeometry = QRect(pos + QPoint(0, (self.height()-self.iconSize().height())/2), self.iconSize())
+        textGeometry = QRect(pos + QPoint(0, base.height() / 2), textSize)
+        iconGeometry = QRect(
+            pos + QPoint(0, (self.height() - self.iconSize().height()) / 2),
+            self.iconSize(),
+        )
 
-        if (Material.LeftIcon == self.d.iconPlacement):
+        if Material.LeftIcon == self.d.iconPlacement:
             textGeometry.translate(iw, 0)
         else:
             iconGeometry.translate(textSize.width() + self.IconPadding, 0)
@@ -647,31 +738,20 @@ class QtMaterialFlatButton(QPushButton):
         icon.fillRect(pixmap.rect(), painter.pen().color())
         painter.drawPixmap(iconGeometry, pixmap)
 
-
-    def updateClipPath(self)-> void:
+    def updateClipPath(self) -> void:
         radius: qreal = self.d.cornerRadius
 
         path = QPainterPath()
         path.addRoundedRect(self.rect(), radius, radius)
         self.d.rippleOverlay.setClipPath(path)
 
-
-    foregroundColor = Property(QColor, foregroundColor, setForegroundColor)
-    backgroundColor = Property(QColor, backgroundColor, setBackgroundColor)
-    overlayColor = Property(QColor, overlayColor, setOverlayColor)
-    disabledForegroundColor = Property(QColor, disabledForegroundColor, setDisabledForegroundColor)
-    disabledBackgroundColor = Property(QColor, disabledBackgroundColor, setDisabledBackgroundColor)
-    fontSize = Property(qreal, fontSize, setFontSize)
-
-
-
-
-
-
-
-
-
-
-
-
-
+    foregroundColor = Q_PROPERTY(QColor, fset=setForegroundColor, fget=foregroundColor)
+    backgroundColor = Q_PROPERTY(QColor, fset=setBackgroundColor, fget=backgroundColor)
+    overlayColor = Q_PROPERTY(QColor, fset=setOverlayColor, fget=overlayColor)
+    disabledForegroundColor = Q_PROPERTY(
+        QColor, fset=setDisabledForegroundColor, fget=disabledForegroundColor
+    )
+    disabledBackgroundColor = Q_PROPERTY(
+        QColor, fset=setDisabledBackgroundColor, fget=disabledBackgroundColor
+    )
+    fontSize = Q_PROPERTY(qreal, fset=setFontSize, fget=fontSize)

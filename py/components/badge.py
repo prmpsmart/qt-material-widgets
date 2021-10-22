@@ -175,3 +175,9 @@ class QtMaterialBadge(QtMaterialOverlayWidget):
             return max(self.d.size.width(), self.d.size.height()) + self.d.padding
         else:
             return 24
+
+    textColor = Q_PROPERTY(QColor, fset=setTextColor, fget=textColor)
+    backgroundColor = Q_PROPERTY(QColor, fset=setBackgroundColor, fget=backgroundColor)
+    relativePosition = Q_PROPERTY(
+        QPointF, fset=setRelativePosition, fget=relativePosition
+    )

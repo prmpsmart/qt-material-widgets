@@ -8,7 +8,6 @@ class MainWindow(QMainWindow):
         widget = QWidget()
         layout = QHBoxLayout(widget)
 
-
         self.stack = QStackedLayout()
 
         self.list = QListWidget()
@@ -68,7 +67,7 @@ class MainWindow(QMainWindow):
             toggle,
         )
 
-        err = [20]
+        err = [len(apps)]
 
         for n in err:
             self.setup(apps[n - 1])
@@ -87,4 +86,3 @@ class MainWindow(QMainWindow):
 
         self.stack.addWidget(wid)
         self.list.addItem(name)
-

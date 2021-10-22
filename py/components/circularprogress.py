@@ -35,6 +35,10 @@ class QtMaterialCircularProgressDelegate(QObject):
     def angle(self) -> int:
         return self.m_angle
 
+    dashOffset = Q_PROPERTY(qreal, fset=setDashOffset, fget=dashOffset)
+    dashLength = Q_PROPERTY(qreal, fset=setDashLength, fget=dashLength)
+    angle = Q_PROPERTY(int, fset=setAngle, fget=angle)
+
 
 class QtMaterialCircularProgressPrivate:
     def __init__(self, q: QtMaterialCircularProgress):
@@ -214,3 +218,7 @@ class QtMaterialCircularProgress(QProgressBar):
             path.arcTo(x, y, self.d.size, self.d.size, 0, a)
 
             painter.drawPath(path)
+
+    lineWidth = Q_PROPERTY(qreal, fset=setLineWidth, fget=lineWidth)
+    size = Q_PROPERTY(qreal, fset=setSize, fget=size)
+    color = Q_PROPERTY(QColor, fset=setColor, fget=color)

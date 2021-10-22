@@ -99,7 +99,9 @@ class QtMaterialSnackbarStateMachine(QStateMachine):
         ):
             self.progress()
 
-        return QStateMachine.eventFilter(watched, event)
+        return QStateMachine.eventFilter(self, watched, event)
+
+    offset = Q_PROPERTY(qreal, fset=setOffset, fget=offset)
 
 
 class QtMaterialSnackbarPrivate:

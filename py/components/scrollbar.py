@@ -40,7 +40,7 @@ class QtMaterialScrollBarStateMachine(QStateMachine):
     def opacity(self) -> qreal:
         return self.m_opacity
 
-    opacity = Property(qreal, opacity, setOpacity)
+    opacity = Q_PROPERTY(qreal, fset=setOpacity, fget=opacity)
 
 
 class QtMaterialScrollBarPrivate:
@@ -112,7 +112,7 @@ class QtMaterialScrollBar(QScrollBar):
 
     def backgroundColor(self) -> QColor:
         if self.d.useThemeColors or not self.d.backgroundColor.isValid():
-            return QtMaterialStyle.instance().themeColor("border")
+            QtMaterialStyle.instance().themeColor("border")
         else:
             return self.d.backgroundColor
 
@@ -180,3 +180,7 @@ class QtMaterialScrollBar(QScrollBar):
 
         painter.drawRoundedRect(handle, 9, 9)
         painter.end()
+
+    canvasColor = Q_PROPERTY(QColor, fset=setCanvasColor, fget=canvasColor)
+    backgroundColor = Q_PROPERTY(QColor, fset=setBackgroundColor, fget=backgroundColor)
+    sliderColor = Q_PROPERTY(QColor, fset=setSliderColor, fget=sliderColor)

@@ -174,6 +174,9 @@ class QtMaterialRipple(QParallelAnimationGroup):
         self.addAnimation(animation)
         return animation
 
+    radius = Q_PROPERTY(qreal, fset=setRadius, fget=radius)
+    opacity = Q_PROPERTY(qreal, fset=setOpacity, fget=opacity)
+
 
 class QtMaterialRippleOverlay(QtMaterialOverlayWidget):
     def __init__(self, parent: QWidget = void):
@@ -1650,3 +1653,7 @@ class QtMaterialCheckableIcon(QWidget):
             painter.drawPixmap(0, 0, pixmap)
 
         painter.end()
+
+    color = Q_PROPERTY(QColor, fget=color, fset=setColor)
+    iconSize = Q_PROPERTY(qreal, fget=iconSize, fset=setIconSize)
+    opacity = Q_PROPERTY(qreal, fget=opacity, fset=setOpacity)

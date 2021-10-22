@@ -12,6 +12,8 @@ from PySide6.QtStateMachine import *
 true = True
 false = False
 
+Q_PROPERTY = Property
+
 
 class QString(str):
     def trimmed(self):

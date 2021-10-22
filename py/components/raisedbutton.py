@@ -84,4 +84,4 @@ class QtMaterialRaisedButton(QtMaterialFlatButton):
                 self.d.shadowStateMachine.stop()
                 self.d.effect.setEnabled(false)
 
-        return QtMaterialFlatButton.event(event)
+        return QtMaterialFlatButton.event(self, event)

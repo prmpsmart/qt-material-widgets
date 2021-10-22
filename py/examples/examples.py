@@ -1730,7 +1730,6 @@ class ToggleSettingsEditor(Example_QWidget):
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
 
-        # self.ui.setupUi(widget)
         layout.setContentsMargins(20, 20, 20, 20)
 
         self.m_toggle.setOrientation(Qt.Vertical)
@@ -1742,14 +1741,14 @@ class ToggleSettingsEditor(Example_QWidget):
 
         self.setupForm()
 
-        self.ui.disabledCheckBox.toggled(self.updateWidget)
-        self.ui.checkedCheckBox.toggled(self.updateWidget)
-        self.ui.orientationComboBox.currentIndexChanged(self.updateWidget)
-        self.ui.useThemeColorsCheckBox.toggled(self.updateWidget)
-        self.ui.disabledColorToolButton.pressed(self.selectColor)
-        self.ui.activeColorToolButton.pressed(self.selectColor)
-        self.ui.inactiveColorToolButton.pressed(self.selectColor)
-        self.ui.trackColorToolButton.pressed(self.selectColor)
+        self.ui.disabledCheckBox.toggled.connect(self.updateWidget)
+        self.ui.checkedCheckBox.toggled.connect(self.updateWidget)
+        self.ui.orientationComboBox.currentIndexChanged.connect(self.updateWidget)
+        self.ui.useThemeColorsCheckBox.toggled.connect(self.updateWidget)
+        self.ui.disabledColorToolButton.pressed.connect(self.selectColor)
+        self.ui.activeColorToolButton.pressed.connect(self.selectColor)
+        self.ui.inactiveColorToolButton.pressed.connect(self.selectColor)
+        self.ui.trackColorToolButton.pressed.connect(self.selectColor)
 
         self.m_toggle.toggled.connect(self.setupForm)
 

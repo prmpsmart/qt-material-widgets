@@ -80,3 +80,6 @@ class QtMaterialAppBar(QWidget):
 
         painter.fillRect(self.rect(), self.backgroundColor())
         painter.end()
+
+    foregroundColor = Q_PROPERTY(QColor, fset=setForegroundColor, fget=foregroundColor)
+    backgroundColor = Q_PROPERTY(QColor, fset=setBackgroundColor, fget=backgroundColor)
