@@ -35,20 +35,20 @@ class QtMaterialCircularProgressDelegate(QObject):
     def angle(self) -> int:
         return self.m_angle
 
-    dashOffset = Q_PROPERTY(qreal, fset=setDashOffset, fget=dashOffset)
-    dashLength = Q_PROPERTY(qreal, fset=setDashLength, fget=dashLength)
-    angle = Q_PROPERTY(int, fset=setAngle, fget=angle)
+    _dashOffset = Q_PROPERTY(qreal, fset=setDashOffset, fget=dashOffset)
+    _dashLength = Q_PROPERTY(qreal, fset=setDashLength, fget=dashLength)
+    _angle = Q_PROPERTY(int, fset=setAngle, fget=angle)
 
 
 class QtMaterialCircularProgressPrivate:
     def __init__(self, q: QtMaterialCircularProgress):
-        self.q = q
-        self.delegate = QtMaterialCircularProgressDelegate()
-        self.progressType = Material()
-        self.color = QColor()
-        self.penWidth = qreal()
-        self.size = int()
-        self.useThemeColors = bool()
+        self.q: QtMaterialCircularProgress = q
+        self.delegate: QtMaterialCircularProgressDelegate = None
+        self.progressType: Material = None
+        self.color: QColor = None
+        self.penWidth: qreal = None
+        self.size: int = None
+        self.useThemeColors: bool = None
 
     def init(self) -> void:
         q = self.q
@@ -67,7 +67,7 @@ class QtMaterialCircularProgressPrivate:
         group.setLoopCount(-1)
 
         animation = QPropertyAnimation(q)
-        animation.setPropertyName("dashLength")
+        animation.setPropertyName(b"_dashLength")
         animation.setTargetObject(self.delegate)
         animation.setEasingCurve(QEasingCurve.InOutQuad)
         animation.setStartValue(0.1)
@@ -80,7 +80,7 @@ class QtMaterialCircularProgressPrivate:
         group.addAnimation(animation)
 
         animation = QPropertyAnimation(q)
-        animation.setPropertyName("dashOffset")
+        animation.setPropertyName(b"_dashOffset")
         animation.setTargetObject(self.delegate)
         animation.setEasingCurve(QEasingCurve.InOutSine)
         animation.setStartValue(0)
@@ -93,7 +93,7 @@ class QtMaterialCircularProgressPrivate:
         group.addAnimation(animation)
 
         animation = QPropertyAnimation(q)
-        animation.setPropertyName("angle")
+        animation.setPropertyName(b"_angle")
         animation.setTargetObject(self.delegate)
         animation.setStartValue(0)
         animation.setEndValue(719)
@@ -219,6 +219,6 @@ class QtMaterialCircularProgress(QProgressBar):
 
             painter.drawPath(path)
 
-    lineWidth = Q_PROPERTY(qreal, fset=setLineWidth, fget=lineWidth)
-    size = Q_PROPERTY(qreal, fset=setSize, fget=size)
-    color = Q_PROPERTY(QColor, fset=setColor, fget=color)
+    _lineWidth = Q_PROPERTY(qreal, fset=setLineWidth, fget=lineWidth)
+    _size = Q_PROPERTY(qreal, fset=setSize, fget=size)
+    _color = Q_PROPERTY(QColor, fset=setColor, fget=color)

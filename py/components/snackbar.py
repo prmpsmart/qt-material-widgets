@@ -101,21 +101,21 @@ class QtMaterialSnackbarStateMachine(QStateMachine):
 
         return QStateMachine.eventFilter(self, watched, event)
 
-    offset = Q_PROPERTY(qreal, fset=setOffset, fget=offset)
+    _offset = Q_PROPERTY(qreal, fset=setOffset, fget=offset)
 
 
 class QtMaterialSnackbarPrivate:
     def __init__(self, q: QtMaterialSnackbar):
-        self.q = q
+        self.q:QtMaterialSnackbar = q
         self.stateMachine = QtMaterialSnackbarStateMachine()
         self.backgroundColor = QColor()
         self.textColor = QColor()
-        self.bgOpacity = qreal()
         self.messages = QList()
-        self.duration = int()
-        self.boxWidth = int()
-        self.clickDismiss = bool()
-        self.useThemeColors = bool()
+        self.bgOpacity :qreal= None
+        self.duration :int= None
+        self.boxWidth :int= None
+        self.clickDismiss :bool= None
+        self.useThemeColors :bool= None
 
     def init(self) -> void:
         self.stateMachine = QtMaterialSnackbarStateMachine(self.q)

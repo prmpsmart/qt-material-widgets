@@ -9,11 +9,11 @@ class QtMaterialIconButton: ...
 class QtMaterialIconButtonPrivate:
 
     def __init__(self, q: QtMaterialIconButton):
-        self.q = q
+        self.q:QtMaterialIconButton = q
         self.rippleOverlay = QtMaterialRippleOverlay()
         self.color = QColor()
         self.disabledColor = QColor()
-        self.useThemeColors = bool()
+        self.useThemeColors:bool = None
 
     def init(self) -> void:
         self.rippleOverlay  = QtMaterialRippleOverlay(self.q.parentWidget())

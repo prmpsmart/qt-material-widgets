@@ -1,5 +1,6 @@
 from . import resources
 from ._qt import *
+from typing import Union
 
 # dummy classes
 
@@ -73,8 +74,8 @@ class QtMaterialRipple(QParallelAnimationGroup):
         self.m_center = QPoint(center)
         self.m_brush = QBrush()
 
-        self.m_radiusAnimation = self.animate("p_radius")
-        self.m_opacityAnimation = self.animate("p_opacity")
+        self.m_radiusAnimation = self.animate(b"_radius")
+        self.m_opacityAnimation = self.animate(b"_opacity")
 
         self.setOpacityStartValue(0.5)
         self.setOpacityEndValue(0)
@@ -98,8 +99,6 @@ class QtMaterialRipple(QParallelAnimationGroup):
     def radius(self) -> qreal:
         return self.m_radius
 
-    p_radius = Property(qreal, radius, setRadius)
-
     def setOpacity(self, opacity: qreal) -> void:
         if self.m_opacity == opacity:
             return
@@ -108,8 +107,6 @@ class QtMaterialRipple(QParallelAnimationGroup):
 
     def opacity(self) -> qreal:
         return self.m_opacity
-
-    p_opacity = Property(qreal, opacity, setOpacity)
 
     def setColor(self, color: QColor) -> void:
         if self.m_brush.color() == color:
@@ -161,21 +158,21 @@ class QtMaterialRipple(QParallelAnimationGroup):
 
     def animate(
         self,
-        property: QByteArray,
+        property: bytes,
         easing: QEasingCurve = QEasingCurve.OutQuad,
         duration: int = 800,
     ) -> QPropertyAnimation:
 
         animation = QPropertyAnimation()
         animation.setTargetObject(self)
-        animation.setPropertyName(QByteArray(property))
+        animation.setPropertyName(property)
         animation.setEasingCurve(easing)
         animation.setDuration(duration)
         self.addAnimation(animation)
         return animation
 
-    radius = Q_PROPERTY(qreal, fset=setRadius, fget=radius)
-    opacity = Q_PROPERTY(qreal, fset=setOpacity, fget=opacity)
+    _radius = Q_PROPERTY(qreal, fset=setRadius, fget=radius)
+    _opacity = Q_PROPERTY(qreal, fset=setOpacity, fget=opacity)
 
 
 class QtMaterialRippleOverlay(QtMaterialOverlayWidget):
@@ -1147,9 +1144,10 @@ class QtMaterialTheme(QObject):
             return QColor()
         return self.d.colors.get(key)
 
-    def setColor(self, key: QString, color: QColor) -> void:
-        self.d.colors[key] = color
-        self.d.colors[key] = self.palette[color.value]
+    def setColor(self, key: QString, color: Union[QColor, Material.Color]) -> void:
+        if isinstance(color, QColor): _c = color
+        else: _c = self.palette[color.value]
+        self.d.colors[key] = _c
 
     @staticmethod
     def icon(category: QString, icon: QString) -> QIcon:
@@ -1158,7 +1156,7 @@ class QtMaterialTheme(QObject):
 
 class QtMaterialThemePrivate:
     def __init__(self, q: QtMaterialTheme) -> void:
-        self.q = q
+        self.q: QtMaterialTheme = q
         self.colors: Dict[QString, QColor] = {}
 
     def rgba(self, r: int, g: int, b: int, a: qreal) -> QColor:
@@ -1169,7 +1167,7 @@ class QtMaterialThemePrivate:
 
 class QtMaterialStylePrivate:
     def __init__(self, q: QtMaterialStyle):
-        self.q = q
+        self.q: QtMaterialStyle = q
         self.theme = QtMaterialTheme()
 
     def init(self) -> void:
@@ -1254,7 +1252,9 @@ class QtMaterialStateTransitionEvent(QEvent):
 
     def __init__(self, type: QtMaterialStateTransitionType) -> void:
         QEvent.__init__(self, QEvent.Type(QEvent.User + 1))
-        self.type = type
+
+    def type(self) -> QtMaterialStateTransitionType:
+        return QEvent.type(self)
 
 
 class QtMaterialStateTransition(QAbstractTransition):
@@ -1267,7 +1267,7 @@ class QtMaterialStateTransition(QAbstractTransition):
             return false
 
         transition = QtMaterialStateTransitionEvent(event)
-        return self.m_type == transition.type
+        return self.m_type == transition.type()
 
     def onTransition(self, event: QEvent) -> void:
         ...
@@ -1366,33 +1366,33 @@ class QtMaterialCheckablePrivate:
 
         # //
 
-        self.checkedState.assignProperty(self.checkedIcon, "opacity", 1)
-        self.checkedState.assignProperty(self.uncheckedIcon, "opacity", 0)
+        self.checkedState.assignProperty(self.checkedIcon, "_opacity", 1)
+        self.checkedState.assignProperty(self.uncheckedIcon, "_opacity", 0)
 
-        self.uncheckedState.assignProperty(self.checkedIcon, "opacity", 0)
-        self.uncheckedState.assignProperty(self.uncheckedIcon, "opacity", 1)
+        self.uncheckedState.assignProperty(self.checkedIcon, "_opacity", 0)
+        self.uncheckedState.assignProperty(self.uncheckedIcon, "_opacity", 1)
 
-        self.disabledCheckedState.assignProperty(self.checkedIcon, "opacity", 1)
-        self.disabledCheckedState.assignProperty(self.uncheckedIcon, "opacity", 0)
+        self.disabledCheckedState.assignProperty(self.checkedIcon, "_opacity", 1)
+        self.disabledCheckedState.assignProperty(self.uncheckedIcon, "_opacity", 0)
 
-        self.disabledUncheckedState.assignProperty(self.checkedIcon, "opacity", 0)
-        self.disabledUncheckedState.assignProperty(self.uncheckedIcon, "opacity", 1)
+        self.disabledUncheckedState.assignProperty(self.checkedIcon, "_opacity", 0)
+        self.disabledUncheckedState.assignProperty(self.uncheckedIcon, "_opacity", 1)
 
-        self.checkedState.assignProperty(self.checkedIcon, "color", q.checkedColor())
-        self.checkedState.assignProperty(self.uncheckedIcon, "color", q.checkedColor())
+        self.checkedState.assignProperty(self.checkedIcon, "_color", q.checkedColor())
+        self.checkedState.assignProperty(self.uncheckedIcon, "_color", q.checkedColor())
 
         self.uncheckedState.assignProperty(
-            self.uncheckedIcon, "color", q.uncheckedColor()
+            self.uncheckedIcon, "_color", q.uncheckedColor()
         )
         self.uncheckedState.assignProperty(
-            self.uncheckedIcon, "color", q.uncheckedColor()
+            self.uncheckedIcon, "_color", q.uncheckedColor()
         )
 
         self.disabledUncheckedState.assignProperty(
-            self.uncheckedIcon, "color", q.disabledColor()
+            self.uncheckedIcon, "_color", q.disabledColor()
         )
         self.disabledCheckedState.assignProperty(
-            self.checkedIcon, "color", q.disabledColor()
+            self.checkedIcon, "_color", q.disabledColor()
         )
 
         self.stateMachine.start()
@@ -1654,6 +1654,6 @@ class QtMaterialCheckableIcon(QWidget):
 
         painter.end()
 
-    color = Q_PROPERTY(QColor, fget=color, fset=setColor)
-    iconSize = Q_PROPERTY(qreal, fget=iconSize, fset=setIconSize)
-    opacity = Q_PROPERTY(qreal, fget=opacity, fset=setOpacity)
+    _color = Q_PROPERTY(QColor, fget=color, fset=setColor)
+    _iconSize = Q_PROPERTY(qreal, fget=iconSize, fset=setIconSize)
+    _opacity = Q_PROPERTY(qreal, fget=opacity, fset=setOpacity)

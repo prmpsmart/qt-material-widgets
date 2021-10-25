@@ -79,14 +79,6 @@ class QtMaterialSliderThumb(QtMaterialOverlayWidget):
 
         return QtMaterialOverlayWidget.eventFilter(self, obj, event)
 
-    haloSize = Property(qreal, haloSize, setHaloSize)
-    fillColor = Property(QColor, fillColor, setFillColor)
-    borderColor = Property(QColor, borderColor, setBorderColor)
-    haloColor = Property(QColor, haloColor, setHaloColor)
-    diameter = Property(qreal, diameter, setDiameter)
-    borderWidth = Property(qreal, borderWidth, setBorderWidth)
-    offset = Property(qreal, offset, setOffset)
-
     def paintEvent(self, event: QPaintEvent) -> void:
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
@@ -169,12 +161,12 @@ class QtMaterialSliderThumb(QtMaterialOverlayWidget):
 
         painter.end()
 
-    diameter = Q_PROPERTY(qreal, fset=setDiameter, fget=diameter)
-    borderWidth = Q_PROPERTY(qreal, fset=setBorderWidth, fget=borderWidth)
-    borderColor = Q_PROPERTY(QColor, fset=setBorderColor, fget=borderColor)
-    fillColor = Q_PROPERTY(QColor, fset=setFillColor, fget=fillColor)
-    haloSize = Q_PROPERTY(qreal, fset=setHaloSize, fget=haloSize)
-    haloColor = Q_PROPERTY(QColor, fset=setHaloColor, fget=haloColor)
+    _diameter = Q_PROPERTY(qreal, fset=setDiameter, fget=diameter)
+    _borderWidth = Q_PROPERTY(qreal, fset=setBorderWidth, fget=borderWidth)
+    _borderColor = Q_PROPERTY(QColor, fset=setBorderColor, fget=borderColor)
+    _fillColor = Q_PROPERTY(QColor, fset=setFillColor, fget=fillColor)
+    _haloSize = Q_PROPERTY(qreal, fset=setHaloSize, fget=haloSize)
+    _haloColor = Q_PROPERTY(QColor, fset=setHaloColor, fget=haloColor)
 
 
 class QtMaterialSliderTrack(QtMaterialOverlayWidget):
@@ -506,20 +498,20 @@ class QtMaterialSliderStateMachine(QStateMachine):
 
 class QtMaterialSliderPrivate:
     def __init__(self, q: QtMaterialSlider):
-        self.q = q
+        self.q: QtMaterialSlider = q
 
         self.thumbColor = QColor()
         self.trackColor = QColor()
         self.disabledColor = QColor()
-        self.stepTo = int()
-        self.oldValue = int()
-        self.trackWidth = int()
-        self.hoverTrack = bool()
-        self.hoverThumb = bool()
-        self.hover = bool()
-        self.step = bool()
-        self.pageStepMode = bool()
-        self.useThemeColors = bool()
+        self.stepTo: int = None
+        self.oldValue: int = None
+        self.trackWidth: int = None
+        self.hoverTrack: bool = None
+        self.hoverThumb: bool = None
+        self.hover: bool = None
+        self.step: bool = None
+        self.pageStepMode: bool = None
+        self.useThemeColors: bool = None
 
     def init(self) -> void:
         self.thumb = QtMaterialSliderThumb(self.q)
@@ -811,6 +803,6 @@ class QtMaterialSlider(QAbstractSlider):
 
         self.d.thumb.setOffset(offset)
 
-    thumbColor = Q_PROPERTY(QColor, fset=setThumbColor, fget=thumbColor)
-    trackColor = Q_PROPERTY(QColor, fset=setTrackColor, fget=trackColor)
-    disabledColor = Q_PROPERTY(QColor, fset=setDisabledColor, fget=disabledColor)
+    _thumbColor = Q_PROPERTY(QColor, fset=setThumbColor, fget=thumbColor)
+    _trackColor = Q_PROPERTY(QColor, fset=setTrackColor, fget=trackColor)
+    _disabledColor = Q_PROPERTY(QColor, fset=setDisabledColor, fget=disabledColor)

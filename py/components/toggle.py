@@ -85,8 +85,8 @@ class QtMaterialToggleThumb(QWidget):
         self.m_offset = self.m_shift * s.width() - s.height()
         self.update()
 
-    shift = Q_PROPERTY(qreal, fset=setShift, fget=shift)
-    thumbColor = Q_PROPERTY(QColor, fset=setThumbColor, fget=thumbColor)
+    _shift = Q_PROPERTY(qreal, fset=setShift, fget=shift)
+    _thumbColor = Q_PROPERTY(QColor, fset=setThumbColor, fget=thumbColor)
 
 
 class QtMaterialToggleTrack(QWidget):
@@ -137,7 +137,7 @@ class QtMaterialToggleTrack(QWidget):
             r = QRect(w / 2, 0, w, self.height())
             painter.drawRoundedRect(r.adjusted(4, 14, -4, -14), w / 2 - 4, w / 2 - 4)
 
-    trackColor = Q_PROPERTY(QColor, fset=setTrackColor, fget=trackColor)
+    _trackColor = Q_PROPERTY(QColor, fset=setTrackColor, fget=trackColor)
 
 
 class QtMaterialToggleRippleOverlay(QtMaterialRippleOverlay):
@@ -231,29 +231,28 @@ class QtMaterialTogglePrivate:
         self.stateMachine.addState(self.onState)
         self.stateMachine.setInitialState(self.offState)
 
-        self.offState.assignProperty(self.thumb, "shift", 0)
-        self.onState.assignProperty(self.thumb, "shift", 1)
+        self.offState.assignProperty(self.thumb, "_shift", 0)
+        self.onState.assignProperty(self.thumb, "_shift", 1)
 
         transition = QSignalTransition(self.q.toggled)
         transition.setTargetState(self.onState)
         self.offState.addTransition(transition)
 
         animation = QPropertyAnimation(self.q)
-        animation.setPropertyName(b"shift")
+        animation.setPropertyName(b"_shift")
         animation.setTargetObject(self.thumb)
         animation.setDuration(200)
         animation.setEasingCurve(QEasingCurve.OutQuad)
         transition.addAnimation(animation)
-        print(self.thumb.dynamicPropertyNames())
 
         animation = QPropertyAnimation(self.q)
-        animation.setPropertyName(b"trackColor")
+        animation.setPropertyName(b"_trackColor")
         animation.setTargetObject(self.track)
         animation.setDuration(150)
         transition.addAnimation(animation)
 
         animation = QPropertyAnimation(self.q)
-        animation.setPropertyName(b"thumbColor")
+        animation.setPropertyName(b"_thumbColor")
         animation.setTargetObject(self.thumb)
         animation.setDuration(150)
         transition.addAnimation(animation)
@@ -371,7 +370,7 @@ class QtMaterialToggle(QAbstractButton):
     def paintEvent(self, event: QPaintEvent) -> void:
         ...
 
-    disabledColor = Q_PROPERTY(QColor, fset=setDisabledColor, fget=disabledColor)
-    activeColor = Q_PROPERTY(QColor, fset=setActiveColor, fget=activeColor)
-    inactiveColor = Q_PROPERTY(QColor, fset=setInactiveColor, fget=inactiveColor)
-    trackColor = Q_PROPERTY(QColor, fset=setTrackColor, fget=trackColor)
+    _disabledColor = Q_PROPERTY(QColor, fset=setDisabledColor, fget=disabledColor)
+    _activeColor = Q_PROPERTY(QColor, fset=setActiveColor, fget=activeColor)
+    _inactiveColor = Q_PROPERTY(QColor, fset=setInactiveColor, fget=inactiveColor)
+    _trackColor = Q_PROPERTY(QColor, fset=setTrackColor, fget=trackColor)

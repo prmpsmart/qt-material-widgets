@@ -1,16 +1,9 @@
+from py.components.flatbutton import QtMaterialFlatButton
 from .lib.qtmaterial import *
 
 
-class QtMaterialTabs:
-    ...
-
-
-class QtMaterialFlatButton:
-    ...
-
-
 class QtMaterialTabsInkBar(QtMaterialOverlayWidget):
-    def __init__(self, parent: QtMaterialTabs):
+    def __init__(self, parent):
         QtMaterialOverlayWidget.__init__(self, parent)
 
         self.m_tabs = parent
@@ -19,7 +12,7 @@ class QtMaterialTabsInkBar(QtMaterialOverlayWidget):
         self.m_previousGeometry = QRect()
         self.m_tween = qreal(0)
 
-        self.m_animation.setPropertyName("tweenValue")
+        self.m_animation.setPropertyName(b"_tweenValue")
         self.m_animation.setEasingCurve(QEasingCurve.OutCirc)
         self.m_animation.setTargetObject(self)
         self.m_animation.setDuration(700)
@@ -78,11 +71,11 @@ class QtMaterialTabsInkBar(QtMaterialOverlayWidget):
         painter.setOpacity(1)
         painter.fillRect(self.m_geometry, self.m_tabs.inkColor())
 
-    tweenValue = Q_PROPERTY(qreal, fset=setTweenValue, fget=tweenValue)
+    _tweenValue = Q_PROPERTY(qreal, fset=setTweenValue, fget=tweenValue)
 
 
 class QtMaterialTab(QtMaterialFlatButton):
-    def __init__(self, parent: QtMaterialTabs):
+    def __init__(self, parent):
         QtMaterialFlatButton.__init__(self, parent)
 
         self.m_tabs = parent
@@ -153,8 +146,8 @@ class QtMaterialTab(QtMaterialFlatButton):
 
 
 class QtMaterialTabsPrivate:
-    def __init__(self, q: QtMaterialTabs):
-        self.q = q
+    def __init__(self, q):
+        self.q:QtMaterialTabs = q
 
         self.inkBar = QtMaterialTabsInkBar()
         self.tabLayout = QHBoxLayout()
@@ -162,9 +155,9 @@ class QtMaterialTabsPrivate:
         self.inkColor = QColor()
         self.backgroundColor = QColor()
         self.textColor = QColor()
-        self.tab = int()
-        self.showHalo = bool()
-        self.useThemeColors = bool()
+        self.tab :int= None
+        self.showHalo :bool= None
+        self.useThemeColors :bool= None
 
     def init(self) -> void:
         self.inkBar = QtMaterialTabsInkBar(self.q)

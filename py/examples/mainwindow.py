@@ -20,6 +20,7 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(widget)
         self.setMinimumSize(800, 800)
+        # self.setStyleSheet('QWidget{background: blue;}')
 
         appBar = AppBarSettingsEditor, "App Bar"
         autocomplete = AutoCompleteSettingsEditor, "Auto Complete"
@@ -67,10 +68,9 @@ class MainWindow(QMainWindow):
             toggle,
         )
 
-        err = [len(apps)]
-
-        for n in err:
-            self.setup(apps[n - 1])
+        for n in apps:
+            self.setup(n)
+            # break
 
         self.list.setCurrentRow(0)
 

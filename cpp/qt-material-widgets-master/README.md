@@ -303,7 +303,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
 - [ ] Snackbar Layout
 - [ ] Table
 
-#### Not implemented 
+#### Not implemented
 
 - [ ] Card
 - [ ] Chips

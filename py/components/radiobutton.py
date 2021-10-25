@@ -9,7 +9,7 @@ class QtMaterialRadioButtonPrivate(QtMaterialCheckablePrivate):
     def __init__(self, q: QtMaterialRadioButton):
         QtMaterialCheckablePrivate.__init__(self)
 
-        self.q = q
+        self.q:QtMaterialRadioButton = q
 
     def init(self) -> void:
         self.q.setAutoExclusive(true)

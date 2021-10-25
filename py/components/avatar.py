@@ -8,7 +8,7 @@ class QtMaterialAvatar:
 class QtMaterialAvatarPrivate:
     def __init__(self, q: QtMaterialAvatar):
 
-        self.q = q
+        self.q:QtMaterialAvatar = q
         self.size = int(40)
         self.type = Material.LetterAvatar
         self.letter = QChar()

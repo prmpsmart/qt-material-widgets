@@ -12,20 +12,25 @@ from PySide6.QtStateMachine import *
 true = True
 false = False
 
+# Qt_Property names are prefixed with "_"
+# to avoid conflict with the getter of the properties.
 Q_PROPERTY = Property
 
 
 class QString(str):
-    def trimmed(self):
+    def isEmpty(self) -> bool:
+        return self == ""
+
+    def trimmed(self) -> str:
         return self.strip()
 
-    def toLower(self):
+    def toLower(self) -> str:
         return self.lower()
 
-    def indexOf(self):
+    def indexOf(self) -> int:
         return self.index()
 
-    def arg(self, val):
+    def arg(self, val) -> str:
         return self % val
 
     number = int

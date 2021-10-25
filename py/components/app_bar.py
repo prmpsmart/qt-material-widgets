@@ -7,10 +7,10 @@ class QtMaterialAppBar:
 
 class QtMaterialAppBarPrivate:
     def __init__(self, q: QtMaterialAppBar):
-        self.q = q
-        self.useThemeColors = bool()
-        self.foregroundColor = QColor()
-        self.backgroundColor = QColor()
+        self.q: QtMaterialAppBar = q
+        self.useThemeColors: bool = None
+        self.foregroundColor: QColor = QColor()
+        self.backgroundColor: QColor = QColor()
 
     def init(self) -> None:
         self.useThemeColors = True
@@ -81,5 +81,5 @@ class QtMaterialAppBar(QWidget):
         painter.fillRect(self.rect(), self.backgroundColor())
         painter.end()
 
-    foregroundColor = Q_PROPERTY(QColor, fset=setForegroundColor, fget=foregroundColor)
-    backgroundColor = Q_PROPERTY(QColor, fset=setBackgroundColor, fget=backgroundColor)
+    _foregroundColor = Q_PROPERTY(QColor, fset=setForegroundColor, fget=foregroundColor)
+    _backgroundColor = Q_PROPERTY(QColor, fset=setBackgroundColor, fget=backgroundColor)

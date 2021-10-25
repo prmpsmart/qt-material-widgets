@@ -36,12 +36,12 @@ class QtMaterialDrawerStateMachine(QStateMachine):
         transition.setTargetState(self.m_openingState)
         self.m_closedState.addTransition(transition)
 
-        animation = QPropertyAnimation(drawer, b"offset", self)
+        animation = QPropertyAnimation(drawer, b"_offset", self)
         animation.setDuration(220)
         animation.setEasingCurve(QEasingCurve.OutCirc)
         transition.addAnimation(animation)
 
-        animation = QPropertyAnimation(self, b"opacity")
+        animation = QPropertyAnimation(self, b"_opacity")
         animation.setDuration(220)
         transition.addAnimation(animation)
 
@@ -53,11 +53,11 @@ class QtMaterialDrawerStateMachine(QStateMachine):
         transition.setTargetState(self.m_closingState)
         self.m_openingState.addTransition(transition)
 
-        animation = QPropertyAnimation(self, b"opacity")
+        animation = QPropertyAnimation(self, b"_opacity")
         animation.setDuration(220)
         transition.addAnimation(animation)
 
-        animation = QPropertyAnimation(drawer, b"offset")
+        animation = QPropertyAnimation(drawer, b"_offset")
         animation.setDuration(220)
         animation.setEasingCurve(QEasingCurve.InCirc)
         transition.addAnimation(animation)
@@ -70,12 +70,12 @@ class QtMaterialDrawerStateMachine(QStateMachine):
         transition.setTargetState(self.m_closingState)
         self.m_openedState.addTransition(transition)
 
-        animation = QPropertyAnimation(drawer, b"offset", self)
+        animation = QPropertyAnimation(drawer, b"_offset", self)
         animation.setDuration(220)
         animation.setEasingCurve(QEasingCurve.InCirc)
         transition.addAnimation(animation)
 
-        animation = QPropertyAnimation(self, b"opacity", self)
+        animation = QPropertyAnimation(self, b"_opacity", self)
         animation.setDuration(220)
         transition.addAnimation(animation)
 
@@ -92,24 +92,22 @@ class QtMaterialDrawerStateMachine(QStateMachine):
     def opacity(self) -> qreal:
         return self.m_opacity
 
-    opacity = Property(qreal, opacity, setOpacity)
-
     def isInClosedState(self) -> bool:
         return self.m_closedState.active()
 
     def updatePropertyAssignments(self) -> void:
         closedOffset: qreal = -(self.m_drawer.width() + 32)
 
-        self.m_closingState.assignProperty(self.m_drawer, "offset", closedOffset)
-        self.m_closedState.assignProperty(self.m_drawer, "offset", closedOffset)
+        self.m_closingState.assignProperty(self.m_drawer, "_offset", closedOffset)
+        self.m_closedState.assignProperty(self.m_drawer, "_offset", closedOffset)
 
-        self.m_closingState.assignProperty(self, "opacity", 0)
-        self.m_closedState.assignProperty(self, "opacity", 0)
+        self.m_closingState.assignProperty(self, "_opacity", 0)
+        self.m_closedState.assignProperty(self, "_opacity", 0)
 
-        self.m_openingState.assignProperty(self.m_drawer, "offset", 0)
-        self.m_openingState.assignProperty(self, "opacity", 0.4)
+        self.m_openingState.assignProperty(self.m_drawer, "_offset", 0)
+        self.m_openingState.assignProperty(self, "_opacity", 0.4)
 
-    opacity = Q_PROPERTY(qreal, fset=setOpacity, fget=opacity)
+    _opacity = Q_PROPERTY(qreal, fset=setOpacity, fget=opacity)
 
 
 class QtMaterialDrawerWidget(QtMaterialOverlayWidget):
@@ -128,8 +126,6 @@ class QtMaterialDrawerWidget(QtMaterialOverlayWidget):
 
     def offset(self) -> int:
         return self.m_offset
-
-    offset = Property(int, offset, setOffset)
 
     def paintEvent(self, event: QPaintEvent) -> void:
         painter = QPainter(self)
@@ -157,12 +153,12 @@ class QtMaterialDrawerWidget(QtMaterialOverlayWidget):
             self.m_offset, 0
         )
 
-    offset = Q_PROPERTY(int, fset=setOffset, fget=offset)
+    _offset = Q_PROPERTY(int, fset=setOffset, fget=offset)
 
 
 class QtMaterialDrawerPrivate:
     def __init__(self, q: QtMaterialDrawer) -> None:
-        self.q = q
+        self.q: QtMaterialDrawer = q
 
     def init(self) -> void:
         self.widget = QtMaterialDrawerWidget()

@@ -8,17 +8,17 @@ class QtMaterialBadge:
 class QtMaterialBadgePrivate:
     def __init__(self, q: QtMaterialBadge):
 
-        self.q = q
+        self.q :QtMaterialBadge= q
 
         self.text = QString()
         self.textColor = QColor()
         self.backgroundColor = QColor()
         self.size = QSize()
         self.icon = QIcon()
-        self.x = qreal()
-        self.y = qreal()
-        self.padding = int()
-        self.useThemeColors = bool()
+        self.x :qreal= None
+        self.y :qreal= None
+        self.padding :int= None
+        self.useThemeColors :bool= None
 
     def init(self) -> None:
         self.x = 0
@@ -176,8 +176,8 @@ class QtMaterialBadge(QtMaterialOverlayWidget):
         else:
             return 24
 
-    textColor = Q_PROPERTY(QColor, fset=setTextColor, fget=textColor)
-    backgroundColor = Q_PROPERTY(QColor, fset=setBackgroundColor, fget=backgroundColor)
-    relativePosition = Q_PROPERTY(
+    _textColor = Q_PROPERTY(QColor, fset=setTextColor, fget=textColor)
+    _backgroundColor = Q_PROPERTY(QColor, fset=setBackgroundColor, fget=backgroundColor)
+    _relativePosition = Q_PROPERTY(
         QPointF, fset=setRelativePosition, fget=relativePosition
     )

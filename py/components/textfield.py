@@ -84,8 +84,6 @@ class QtMaterialTextFieldStateMachine(QStateMachine):
     def progress(self) -> qreal:
         return self.m_progress
 
-    progress = Property(qreal, progress, setProgress)
-
     def setupProperties(self) -> void:
         if self.m_label:
             m: int = self.m_textField.textMargins().top()
@@ -120,23 +118,23 @@ class QtMaterialTextFieldStateMachine(QStateMachine):
 
         self.m_textField.update()
 
-    progress = Q_PROPERTY(qreal, fset=setProgress, fget=progress)
+    _progress = Q_PROPERTY(qreal, fset=setProgress, fget=progress)
 
 
 class QtMaterialTextFieldPrivate:
     def __init__(self, q: QtMaterialTextField):
-        self.q = q
+        self.q: QtMaterialTextField = q
         self.textColor = QColor()
         self.labelColor = QColor()
         self.inkColor = QColor()
         self.inputLineColor = QColor()
         self.labelString = QString()
-        self.labelFontSize = qreal(9.5)
-        self.showLabel = bool(false)
-        self.showInputLine = bool(true)
-        self.useThemeColors = bool(true)
-        self.label = None
-        self.stateMachine = None
+        self.labelFontSize: qreal = 9.5
+        self.showLabel: bool = false
+        self.showInputLine: bool = true
+        self.useThemeColors: bool = true
+        self.label: QtMaterialTextFieldLabel = None
+        self.stateMachine: QtMaterialTextFieldStateMachine = None
 
     def init(self):
         self.label = QtMaterialTextFieldLabel(self.q)
@@ -315,9 +313,9 @@ class QtMaterialTextField(QLineEdit):
                 w: int = (1 - progress) * (wd / 2)
                 painter.drawRect(w + 2.5, self.height() - 2, wd - w * 2, 2)
 
-    textColor = Q_PROPERTY(QColor, fset=setTextColor, fget=textColor)
-    inkColor = Q_PROPERTY(QColor, fset=setInkColor, fget=inkColor)
-    inputLineColor = Q_PROPERTY(QColor, fset=setInputLineColor, fget=inputLineColor)
+    _textColor = Q_PROPERTY(QColor, fset=setTextColor, fget=textColor)
+    _inkColor = Q_PROPERTY(QColor, fset=setInkColor, fget=inkColor)
+    _inputLineColor = Q_PROPERTY(QColor, fset=setInputLineColor, fget=inputLineColor)
 
 
 class QtMaterialTextFieldLabel(QWidget):
@@ -370,6 +368,6 @@ class QtMaterialTextFieldLabel(QWidget):
         pos = QPointF(2 + self.m_posX, self.height() - 36 + self.m_posY)
         painter.drawText(pos.x(), pos.y(), self.m_textField.label())
 
-    scale = Q_PROPERTY(qreal, fset=setScale, fget=scale)
-    offset = Q_PROPERTY(QPointF, fset=setOffset, fget=offset)
-    color = Q_PROPERTY(QColor, fset=setColor, fget=color)
+    _scale = Q_PROPERTY(qreal, fset=setScale, fget=scale)
+    _offset = Q_PROPERTY(QPointF, fset=setOffset, fget=offset)
+    _color = Q_PROPERTY(QColor, fset=setColor, fget=color)

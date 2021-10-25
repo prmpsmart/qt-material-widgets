@@ -16,6 +16,8 @@ class QtMaterialAutoCompleteStateMachine(QStateMachine):
         self.m_openState = QState()
         self.m_closingState = QState()
 
+        assert menu
+
         self.addState(self.m_closedState)
         self.addState(self.m_openState)
         self.addState(self.m_closingState)
@@ -35,8 +37,8 @@ class QtMaterialAutoCompleteStateMachine(QStateMachine):
         transition.setTargetState(self.m_closingState)
         self.m_openState.addTransition(transition)
 
-        self.m_closedState.assignProperty(menu, "visible", false)
-        self.m_openState.assignProperty(menu, "visible", true)
+        self.m_closedState.assignProperty(menu, "_visible", false)
+        self.m_openState.assignProperty(menu, "_visible", true)
 
         effect = QGraphicsOpacityEffect()
         menu.setGraphicsEffect(effect)
@@ -45,9 +47,7 @@ class QtMaterialAutoCompleteStateMachine(QStateMachine):
         self.m_closingState.assignProperty(effect, "opacity", 0)
         self.m_closedState.assignProperty(effect, "opacity", 0)
 
-        animation = QPropertyAnimation()
-
-        animation = QPropertyAnimation(effect, QByteArray("opacity"), self)
+        animation = QPropertyAnimation(effect, b"opacity", self)
         animation.setDuration(240)
         self.addDefaultAnimation(animation)
 
@@ -62,14 +62,14 @@ class QtMaterialAutoComplete:
 
 class QtMaterialAutoCompletePrivate(QtMaterialTextFieldPrivate):
     def __init__(self, q: QtMaterialAutoComplete):
-
-        self.q = q
-        self.menu = QWidget()
-        self.frame = QWidget()
-        self.stateMachine = None
-        self.menuLayout = QVBoxLayout()
-        self.dataSource = QStringList()
+        self.q: QtMaterialAutoComplete = q
+        self.menu: QWidget = QWidget()
+        self.frame: QWidget = QWidget()
+        self.stateMachine: QtMaterialAutoCompleteStateMachine = None
+        self.menuLayout: QVBoxLayout = QVBoxLayout()
+        self.dataSource: QStringList = QStringList()
         self.maxWidth = 0
+
         QtMaterialTextFieldPrivate.__init__(self, q)
 
     def init(self) -> None:
@@ -92,6 +92,7 @@ class QtMaterialAutoCompletePrivate(QtMaterialTextFieldPrivate):
 
         self.menu.setLayout(self.menuLayout)
         self.menu.setVisible(false)
+        self.menu.setStyleSheet('background:blue;')
 
         self.menuLayout.setContentsMargins(0, 0, 0, 0)
         self.menuLayout.setSpacing(0)
@@ -118,15 +119,15 @@ class QtMaterialAutoComplete(QtMaterialTextField):
         results = QStringList()
         trimmed = QString(text.strip())
 
-        if not trimmed:
+        if not trimmed.isEmpty():
             lookup = QString(trimmed.toLower())
             for i in self.d.dataSource:
-                if i.lower().index(lookup) != -1:
+                if lookup in i:
                     results.push_back(i)
-
+        
         diff: int = results.length() - self.d.menuLayout.count()
+        
         font = QFont("Roboto", 12, QFont.Normal)
-        print(diff)
 
         if diff > 0:
             for c in range(diff):
@@ -151,10 +152,9 @@ class QtMaterialAutoComplete(QtMaterialTextField):
         self.d.maxWidth = 0
 
         for i in range(results.count()):
-            widget: QWidget = self.d.menuLayout.itemAt(i).widget()
-            item: QtMaterialFlatButton = None
-            if type(item) == type(widget):
-                text: QString = results.at(i)
+            item = self.d.menuLayout.itemAt(i).widget()
+            if isinstance(item, QtMaterialFlatButton):
+                text: QString = results[i]
                 rect: QRect = fm.boundingRect(text)
                 self.d.maxWidth = max(self.d.maxWidth, rect.width())
                 item.setText(text)
@@ -167,6 +167,7 @@ class QtMaterialAutoComplete(QtMaterialTextField):
         self.d.menu.setFixedHeight(results.length() * 50)
         self.d.menu.setFixedWidth(max(self.d.maxWidth + 24, self.width()))
         self.d.menu.update()
+        self.d.menu.setVisible(true)
 
     def event(self, event: QEvent) -> bool:
         e = event.type()
@@ -202,11 +203,11 @@ class QtMaterialAutoComplete(QtMaterialTextField):
                 self.d.frame.hide()
         else:
             if e == QEvent.MouseButtonPress:
-                self.emit(self.d.stateMachine.shouldFade())
+                self.d.stateMachine.shouldFade.emit()
 
                 if type(watched) == QtMaterialFlatButton:
                     text: QString = watched.text()
                     self.setText(text)
-                    self.emit(self.itemSelected(text))
+                    self.itemSelected.emit(text)
 
         return QtMaterialTextField.eventFilter(self, watched, event)

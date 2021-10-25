@@ -14,13 +14,13 @@ class QtMaterialFloatingActionButtonPrivate(QtMaterialRaisedButtonPrivate):
 
     def __init__(self, q: QtMaterialFloatingActionButton):
 
-        self.q = q
+        self.q: QtMaterialFloatingActionButton = q
         QtMaterialRaisedButtonPrivate.__init__(self, q)
 
-        self.corner = Qt.Corner
-        self.mini = bool()
-        self.offsX = int()
-        self.offsY = int()
+        self.corner: Qt.Corner = None
+        self.mini: bool = None
+        self.offsX: int = None
+        self.offsY: int = None
 
     def init(self) -> void:
         self.corner = Qt.BottomRightCorner

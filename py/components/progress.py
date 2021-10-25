@@ -18,7 +18,7 @@ class QtMaterialProgressDelegate(QObject):
     def offset(self) -> qreal:
         return self.m_offset
 
-    offset = Q_PROPERTY(qreal, fset=setOffset, fget=offset)
+    _offset = Q_PROPERTY(qreal, fset=setOffset, fget=offset)
 
 
 class QtMaterialProgressPrivate:
@@ -36,7 +36,7 @@ class QtMaterialProgressPrivate:
         self.useThemeColors = true
 
         animation = QPropertyAnimation(self.q)
-        animation.setPropertyName("offset")
+        animation.setPropertyName(b"_offset")
         animation.setTargetObject(self.delegate)
         animation.setStartValue(0)
         animation.setEndValue(1)
@@ -133,5 +133,5 @@ class QtMaterialProgress(QProgressBar):
                 )
                 painter.drawRect(0, 0, p, self.height())
 
-    progressColor = Q_PROPERTY(QColor, fset=setProgressColor, fget=progressColor)
-    backgroundColor = Q_PROPERTY(QColor, fset=setProgressColor, fget=backgroundColor)
+    _progressColor = Q_PROPERTY(QColor, fset=setProgressColor, fget=progressColor)
+    _backgroundColor = Q_PROPERTY(QColor, fset=setProgressColor, fget=backgroundColor)

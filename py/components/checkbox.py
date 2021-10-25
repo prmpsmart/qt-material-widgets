@@ -11,40 +11,38 @@ class QtMaterialCheckBoxPrivate(QtMaterialCheckablePrivate):
 
     def init(self) -> void:
         q = self.q
-        self.checkedState.assignProperty(self.checkedIcon, "iconSize", 24)
-        self.uncheckedState.assignProperty(self.checkedIcon, "iconSize", 0)
+        self.checkedState.assignProperty(self.checkedIcon, "_iconSize", 24)
+        self.uncheckedState.assignProperty(self.checkedIcon, "_iconSize", 0)
 
-        animation = QPropertyAnimation()
-
-        animation = QPropertyAnimation(self.checkedIcon, "iconSize", q)
+        animation = QPropertyAnimation(self.checkedIcon, "_iconSize", q)
         animation.setDuration(300)
         self.uncheckedTransition.addAnimation(animation)
 
-        animation = QPropertyAnimation(self.checkedIcon, "iconSize", q)
+        animation = QPropertyAnimation(self.checkedIcon, "_iconSize", q)
         animation.setDuration(1300)
         self.checkedTransition.addAnimation(animation)
 
-        animation = QPropertyAnimation(self.checkedIcon, "opacity", q)
+        animation = QPropertyAnimation(self.checkedIcon, "_opacity", q)
         animation.setDuration(440)
         self.checkedTransition.addAnimation(animation)
 
-        animation = QPropertyAnimation(self.checkedIcon, "opacity", q)
+        animation = QPropertyAnimation(self.checkedIcon, "_opacity", q)
         animation.setDuration(440)
         self.uncheckedTransition.addAnimation(animation)
 
-        animation = QPropertyAnimation(self.uncheckedIcon, "opacity", q)
+        animation = QPropertyAnimation(self.uncheckedIcon, "_opacity", q)
         animation.setDuration(440)
         self.checkedTransition.addAnimation(animation)
 
-        animation = QPropertyAnimation(self.uncheckedIcon, "opacity", q)
+        animation = QPropertyAnimation(self.uncheckedIcon, "_opacity", q)
         animation.setDuration(440)
         self.uncheckedTransition.addAnimation(animation)
 
-        animation = QPropertyAnimation(self.uncheckedIcon, "color", q)
+        animation = QPropertyAnimation(self.uncheckedIcon, "_color", q)
         animation.setDuration(440)
         self.checkedTransition.addAnimation(animation)
 
-        animation = QPropertyAnimation(self.uncheckedIcon, "color", q)
+        animation = QPropertyAnimation(self.uncheckedIcon, "_color", q)
         animation.setDuration(440)
         self.uncheckedTransition.addAnimation(animation)
 

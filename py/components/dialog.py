@@ -77,7 +77,7 @@ class QtMaterialDialogProxy(QWidget):
         pm: QPixmap = self.m_source.grab(self.m_source.rect())
         painter.drawPixmap(0, 0, pm)
 
-    opacity = Q_PROPERTY(qreal, fset=setOpacity, fget=opacity)
+    _opacity = Q_PROPERTY(qreal, fset=setOpacity, fget=opacity)
 
 
 class QtMaterialDialogWindow(QWidget):
@@ -104,17 +104,16 @@ class QtMaterialDialogWindow(QWidget):
         painter.setBrush(brush)
         painter.drawRect(self.rect())
 
-    offset = Q_PROPERTY(int, fset=setOffset, fget=offset)
+    _offset = Q_PROPERTY(int, fset=setOffset, fget=offset)
 
 
 class QtMaterialDialogPrivate:
     def __init__(self, q: QtMaterialDialog):
-
-        self.q = q
-        self.dialogWindow = QtMaterialDialogWindow()
-        self.proxyStack = QStackedLayout()
-        self.stateMachine = QStateMachine()
-        self.proxy = QtMaterialDialogProxy()
+        self.q: QtMaterialDialog = q
+        self.dialogWindow: QtMaterialDialogWindow = None
+        self.proxyStack: QStackedLayout = None
+        self.stateMachine: QStateMachine = None
+        self.proxy: QtMaterialDialogProxy = None
 
     def init(self) -> void:
         q = self.q
@@ -172,33 +171,21 @@ class QtMaterialDialogPrivate:
         hiddenState.assignProperty(effect, "color", QColor(0, 0, 0, 0))
         hiddenState.assignProperty(self.dialogWindow, "offset", 200)
 
-        animation = QPropertyAnimation()
-
-        animation = QPropertyAnimation(self.proxy, "opacity", q)
+        animation = QPropertyAnimation(self.proxy, b"_opacity", q)
         animation.setDuration(280)
         self.stateMachine.addDefaultAnimation(animation)
 
-        animation = QPropertyAnimation(effect, "color", q)
+        animation = QPropertyAnimation(effect, b"color", q)
         animation.setDuration(280)
-        self.dialogWindowstateMachine.addDefaultAnimation(animation)
+        self.stateMachine.addDefaultAnimation(animation)
 
-        animation = QPropertyAnimation(self.dialogWindow, "offset", q)
+        animation = QPropertyAnimation(self.dialogWindow, b"_offset", q)
         animation.setDuration(280)
         animation.setEasingCurve(QEasingCurve.OutCirc)
         self.stateMachine.addDefaultAnimation(animation)
 
-        QObject.connect(
-            visibleState,
-            SIGNAL(self.propertiesAssigned()),
-            self.proxy,
-            SLOT(self.makeOpaque()),
-        )
-        QObject.connect(
-            hiddenState,
-            SIGNAL(self.propertiesAssigned()),
-            self.proxy,
-            SLOT(self.makeTransparent()),
-        )
+        visibleState.propertiesAssigned.connect(self.proxy.makeOpaque)
+        hiddenState.propertiesAssigned.connect(self.proxy.makeTransparent)
 
         self.stateMachine.start()
         QCoreApplication.processEvents()

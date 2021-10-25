@@ -40,18 +40,18 @@ class QtMaterialScrollBarStateMachine(QStateMachine):
     def opacity(self) -> qreal:
         return self.m_opacity
 
-    opacity = Q_PROPERTY(qreal, fset=setOpacity, fget=opacity)
+    _opacity = Q_PROPERTY(qreal, fset=setOpacity, fget=opacity)
 
 
 class QtMaterialScrollBarPrivate:
     def __init__(self, q: QtMaterialScrollBar):
-        self.q = q
+        self.q :QtMaterialScrollBar= q
 
         self.backgroundColor = QColor("blue")
         self.sliderColor = QColor()
         self.canvasColor = QColor()
-        self.hideOnMouseOut = bool()
-        self.useThemeColors = bool()
+        self.hideOnMouseOut :bool= None
+        self.useThemeColors :bool= None
 
     def init(self) -> void:
         self.stateMachine = QtMaterialScrollBarStateMachine(self.q)
@@ -181,6 +181,6 @@ class QtMaterialScrollBar(QScrollBar):
         painter.drawRoundedRect(handle, 9, 9)
         painter.end()
 
-    canvasColor = Q_PROPERTY(QColor, fset=setCanvasColor, fget=canvasColor)
-    backgroundColor = Q_PROPERTY(QColor, fset=setBackgroundColor, fget=backgroundColor)
-    sliderColor = Q_PROPERTY(QColor, fset=setSliderColor, fget=sliderColor)
+    _canvasColor = Q_PROPERTY(QColor, fset=setCanvasColor, fget=canvasColor)
+    _backgroundColor = Q_PROPERTY(QColor, fset=setBackgroundColor, fget=backgroundColor)
+    _sliderColor = Q_PROPERTY(QColor, fset=setSliderColor, fget=sliderColor)
