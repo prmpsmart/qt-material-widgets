@@ -1,15 +1,11 @@
 from .lib.qtmaterial import *
 
 
-class QtMaterialRadioButton:
-    ...
-
-
 class QtMaterialRadioButtonPrivate(QtMaterialCheckablePrivate):
-    def __init__(self, q: QtMaterialRadioButton):
+    def __init__(self, q: "QtMaterialRadioButton"):
         QtMaterialCheckablePrivate.__init__(self)
 
-        self.q:QtMaterialRadioButton = q
+        self.q: QtMaterialRadioButton = q
 
     def init(self) -> void:
         self.q.setAutoExclusive(true)

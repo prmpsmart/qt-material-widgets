@@ -1,8 +1,6 @@
 from .lib.qtmaterial import *
 
 
-
-
 class QtMaterialFlatButtonStateMachine(QStateMachine):
     buttonPressed = Signal()
     buttonChecked = Signal()

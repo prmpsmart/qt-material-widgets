@@ -1,20 +1,12 @@
 from .lib.qtmaterial import *
 
 
-class QtMaterialDrawer:
-    ...
-
-
-class QtMaterialDrawerWidget:
-    ...
-
-
 class QtMaterialDrawerStateMachine(QStateMachine):
 
     signalOpen = Signal()
     signalClose = Signal()
 
-    def __init__(self, drawer: QtMaterialDrawerWidget, parent: QtMaterialDrawer):
+    def __init__(self, drawer: "QtMaterialDrawerWidget", parent: "QtMaterialDrawer"):
         QStateMachine.__init__(self, parent)
 
         self.m_drawer = drawer
@@ -66,8 +58,8 @@ class QtMaterialDrawerStateMachine(QStateMachine):
         transition.setTargetState(self.m_closedState)
         self.m_closingState.addTransition(transition)
 
-        transition = QSignalTransition(self.signalClose)
-        transition.setTargetState(self.m_closingState)
+        # transition = QSignalTransition(self.signalClose)
+        # transition.setTargetState(self.m_closingState)
         self.m_openedState.addTransition(transition)
 
         animation = QPropertyAnimation(drawer, b"_offset", self)
@@ -157,7 +149,7 @@ class QtMaterialDrawerWidget(QtMaterialOverlayWidget):
 
 
 class QtMaterialDrawerPrivate:
-    def __init__(self, q: QtMaterialDrawer) -> None:
+    def __init__(self, q: "QtMaterialDrawer") -> None:
         self.q: QtMaterialDrawer = q
 
     def init(self) -> void:
@@ -267,5 +259,5 @@ class QtMaterialDrawer(QtMaterialOverlayWidget):
         if not self.d.overlay or self.d.stateMachine.isInClosedState():
             return
         painter = QPainter(self)
-        painter.setOpacity(self.d.stateMachine.opacity)
+        painter.setOpacity(self.d.stateMachine.opacity())
         painter.fillRect(self.rect(), Qt.SolidPattern)

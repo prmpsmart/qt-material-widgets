@@ -1,14 +1,6 @@
 from .lib.qtmaterial import *
 
 
-class QtMaterialDialog:
-    ...
-
-
-class QtMaterialDialogWindow:
-    ...
-
-
 class QtMaterialDialogProxy(QWidget):
     class TransparencyMode(enum.Enum):
         Transparent = enum.auto()
@@ -21,9 +13,9 @@ class QtMaterialDialogProxy(QWidget):
 
     def __init__(
         self,
-        source: QtMaterialDialogWindow,
+        source: "QtMaterialDialogWindow",
         layout: QStackedLayout,
-        dialog: QtMaterialDialog,
+        dialog: "QtMaterialDialog",
         parent: QWidget = None,
     ):
         QWidget.__init__(self, parent)
@@ -81,7 +73,7 @@ class QtMaterialDialogProxy(QWidget):
 
 
 class QtMaterialDialogWindow(QWidget):
-    def __init__(self, dialog: QtMaterialDialog, parent: QWidget = None):
+    def __init__(self, dialog: "QtMaterialDialog", parent: QWidget = None):
         QWidget.__init__(self, parent)
 
         self.m_dialog = dialog
@@ -108,7 +100,7 @@ class QtMaterialDialogWindow(QWidget):
 
 
 class QtMaterialDialogPrivate:
-    def __init__(self, q: QtMaterialDialog):
+    def __init__(self, q: "QtMaterialDialog"):
         self.q: QtMaterialDialog = q
         self.dialogWindow: QtMaterialDialogWindow = None
         self.proxyStack: QStackedLayout = None

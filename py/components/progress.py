@@ -1,12 +1,8 @@
 from .lib.qtmaterial import *
 
 
-class QtMaterialProgress:
-    ...
-
-
 class QtMaterialProgressDelegate(QObject):
-    def __init__(self, parent: QtMaterialProgress):
+    def __init__(self, parent: "QtMaterialProgress"):
         QObject.__init__(self, parent)
         self.m_progress = parent
         self.m_offset = qreal(0)
@@ -22,7 +18,7 @@ class QtMaterialProgressDelegate(QObject):
 
 
 class QtMaterialProgressPrivate:
-    def __init__(self, q: QtMaterialProgress):
+    def __init__(self, q: "QtMaterialProgress"):
         self.q: QtMaterialProgress = q
         self.delegate: QtMaterialProgressDelegate = None
         self.progressType: Material = None

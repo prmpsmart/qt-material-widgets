@@ -1,24 +1,20 @@
 from .lib.qtmaterial import *
 
 
-class QtMaterialBadge:
-    ...
-
-
 class QtMaterialBadgePrivate:
-    def __init__(self, q: QtMaterialBadge):
+    def __init__(self, q: "QtMaterialBadge"):
 
-        self.q :QtMaterialBadge= q
+        self.q: QtMaterialBadge = q
 
         self.text = QString()
         self.textColor = QColor()
         self.backgroundColor = QColor()
         self.size = QSize()
         self.icon = QIcon()
-        self.x :qreal= None
-        self.y :qreal= None
-        self.padding :int= None
-        self.useThemeColors :bool= None
+        self.x: qreal = None
+        self.y: qreal = None
+        self.padding: int = None
+        self.useThemeColors: bool = None
 
     def init(self) -> None:
         self.x = 0

@@ -248,7 +248,6 @@ class AvatarSettingsEditor(Example_QWidget):
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
 
-        
         layout.setContentsMargins(20, 20, 20, 20)
 
         layout = QVBoxLayout()
@@ -401,6 +400,7 @@ class BadgeSettingsEditor(Example_QWidget):
         self.setupForm()
 
 
+# uncompleted \class CheckBoxSettingsEditor
 class CheckBoxSettingsEditor(Example_QWidget):
     ui_file = "checkboxsettingsform"
 
@@ -418,7 +418,7 @@ class CheckBoxSettingsEditor(Example_QWidget):
         canvas = QWidget()
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
-        
+
         layout.setContentsMargins(20, 20, 20, 20)
 
         self.m_checkBox.setText("Extra cheese")
@@ -509,7 +509,6 @@ class CircularProgressSettingsEditor(Example_QWidget):
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
 
-        
         layout.setContentsMargins(20, 20, 20, 20)
 
         layout = QVBoxLayout()
@@ -572,6 +571,7 @@ class CircularProgressSettingsEditor(Example_QWidget):
         self.setupForm()
 
 
+# not responding \class DialogSettingsEditor
 class DialogSettingsEditor(Example_QWidget):
     ui_file = "dialogsettingsform"
 
@@ -590,7 +590,6 @@ class DialogSettingsEditor(Example_QWidget):
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
 
-        
         layout.setContentsMargins(20, 20, 20, 20)
 
         layout = QVBoxLayout()
@@ -646,7 +645,6 @@ class DrawerSettingsEditor(Example_QWidget):
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
 
-        
         layout.setContentsMargins(20, 20, 20, 20)
 
         layout = QVBoxLayout()
@@ -719,7 +717,6 @@ class FloatingActionButtonSettingsEditor(Example_QWidget):
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
 
-        
         layout.setContentsMargins(20, 20, 20, 20)
 
         self.m_fab.setParent(canvas)
@@ -864,7 +861,6 @@ class FlatButtonSettingsEditor(Example_QWidget):
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
 
-        
         layout.setContentsMargins(20, 20, 20, 20)
 
         self.m_button.setFixedWidth(300)
@@ -1121,7 +1117,6 @@ class IconButtonSettingsEditor(Example_QWidget):
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
 
-        
         layout.setContentsMargins(20, 20, 20, 20)
 
         layout = QVBoxLayout()
@@ -1180,7 +1175,7 @@ class MenuSettingsEditor(Example_QWidget):
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
 
-        # 
+        #
         layout.setContentsMargins(20, 20, 20, 20)
 
         layout = QVBoxLayout()
@@ -1220,7 +1215,6 @@ class ProgressSettingsEditor(Example_QWidget):
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
 
-        
         layout.setContentsMargins(20, 20, 20, 20)
 
         layout = QVBoxLayout()
@@ -1300,7 +1294,6 @@ class RadioButtonSettingsEditor(Example_QWidget):
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
 
-        
         layout.setContentsMargins(20, 20, 20, 20)
 
         self.m_radioButton1.setText("Coffee")
@@ -1439,7 +1432,6 @@ class ScrollBarSettingsEditor(Example_QWidget):
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
 
-        
         layout.setContentsMargins(20, 20, 20, 20)
 
         layout = QVBoxLayout()
@@ -1492,7 +1484,6 @@ class SliderSettingsEditor(Example_QWidget):
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
 
-        
         layout.setContentsMargins(20, 20, 20, 20)
 
         layout = QVBoxLayout()
@@ -1555,7 +1546,6 @@ class SnackbarSettingsEditor(Example_QWidget):
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
 
-        
         layout.setContentsMargins(20, 20, 20, 20)
 
         layout = QVBoxLayout()
@@ -1599,7 +1589,6 @@ class TabsSettingsEditor(Example_QWidget):
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
 
-        
         layout.setContentsMargins(20, 20, 20, 20)
 
         layout = QVBoxLayout()
@@ -1646,7 +1635,6 @@ class TextFieldSettingsEditor(Example_QWidget):
         canvas.setStyleSheet("QWidget { background: white }")
         layout.addWidget(canvas)
 
-        
         layout.setContentsMargins(20, 20, 20, 20)
 
         layout = QVBoxLayout()

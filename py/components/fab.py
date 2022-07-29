@@ -1,10 +1,6 @@
 from .raisedbutton import *
 
 
-class QtMaterialFloatingActionButton:
-    ...
-
-
 class QtMaterialFloatingActionButtonPrivate(QtMaterialRaisedButtonPrivate):
 
     DefaultDiameter = 56
@@ -12,7 +8,7 @@ class QtMaterialFloatingActionButtonPrivate(QtMaterialRaisedButtonPrivate):
     DefaultIconSize = 24
     MiniIconSize = 18
 
-    def __init__(self, q: QtMaterialFloatingActionButton):
+    def __init__(self, q: "QtMaterialFloatingActionButton"):
 
         self.q: QtMaterialFloatingActionButton = q
         QtMaterialRaisedButtonPrivate.__init__(self, q)

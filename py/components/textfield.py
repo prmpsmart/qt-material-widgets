@@ -1,16 +1,8 @@
 from .lib.qtmaterial import *
 
 
-class QtMaterialTextField:
-    ...
-
-
-class QtMaterialTextFieldLabel:
-    ...
-
-
 class QtMaterialTextFieldStateMachine(QStateMachine):
-    def __init__(self, parent: QtMaterialTextField):
+    def __init__(self, parent: "QtMaterialTextField"):
         QStateMachine.__init__(self, parent)
 
         self.m_textField = parent
@@ -51,7 +43,7 @@ class QtMaterialTextFieldStateMachine(QStateMachine):
 
         self.m_textField.textChanged.connect(self.setupProperties)
 
-    def setLabel(self, label: QtMaterialTextFieldLabel) -> void:
+    def setLabel(self, label: "QtMaterialTextFieldLabel") -> void:
         if self.m_label:
             del self.m_label
 
@@ -122,7 +114,7 @@ class QtMaterialTextFieldStateMachine(QStateMachine):
 
 
 class QtMaterialTextFieldPrivate:
-    def __init__(self, q: QtMaterialTextField):
+    def __init__(self, q: "QtMaterialTextField"):
         self.q: QtMaterialTextField = q
         self.textColor = QColor()
         self.labelColor = QColor()

@@ -1,12 +1,8 @@
 from .lib.qtmaterial import *
 
 
-class QtMaterialToggle:
-    ...
-
-
 class QtMaterialToggleThumb(QWidget):
-    def __init__(self, parent: QtMaterialToggle):
+    def __init__(self, parent: "QtMaterialToggle"):
         QWidget.__init__(self, parent)
 
         self.m_toggle = parent
@@ -90,7 +86,7 @@ class QtMaterialToggleThumb(QWidget):
 
 
 class QtMaterialToggleTrack(QWidget):
-    def __init__(self, parent: QtMaterialToggle):
+    def __init__(self, parent: "QtMaterialToggle"):
         QWidget.__init__(self, parent)
         self.m_toggle = parent
         self.m_trackColor = QColor()
@@ -145,7 +141,7 @@ class QtMaterialToggleRippleOverlay(QtMaterialRippleOverlay):
         self,
         thumb: QtMaterialToggleThumb,
         track: QtMaterialToggleTrack,
-        parent: QtMaterialToggle,
+        parent: "QtMaterialToggle",
     ):
         QtMaterialRippleOverlay.__init__(self, parent)
 
@@ -196,7 +192,7 @@ class QtMaterialToggleRippleOverlay(QtMaterialRippleOverlay):
 
 
 class QtMaterialTogglePrivate:
-    def __init__(self, q: QtMaterialToggle):
+    def __init__(self, q: "QtMaterialToggle"):
         self.q: QtMaterialToggle = q
         self.track: QtMaterialToggleTrack = None
         self.thumb: QtMaterialToggleThumb = None

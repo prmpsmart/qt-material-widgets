@@ -1,6 +1,7 @@
 from . import examples_resources
 from .mainwindow import *
 
+
 def main():
     a = QApplication([])
 
@@ -16,10 +17,12 @@ def main():
     # window = AutoCompleteSettingsEditor()
     # window = CheckBoxSettingsEditor()
 
-    # testing
-    window = DialogSettingsEditor()
+    # not responding
+    # window = DialogSettingsEditor()
 
-    # window = DrawerSettingsEditor()
+    # testing
+    window = DrawerSettingsEditor()
+
     # window = FloatingActionButtonSettingsEditor()
     # window = FlatButtonSettingsEditor()
     # window = IconButtonSettingsEditor()
@@ -33,9 +36,7 @@ def main():
     # window = TabsSettingsEditor()
     # window = TextFieldSettingsEditor()
     # window = ToggleSettingsEditor()
-    
+
     # window = MainWindow()
     window.show()
     a.exec_()
-
-

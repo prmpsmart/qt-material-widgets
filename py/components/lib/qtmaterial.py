@@ -2,23 +2,6 @@ from . import resources
 from ._qt import *
 from typing import Union
 
-# dummy classes
-
-
-class QtMaterialRippleOverlay:
-    ...
-
-
-class QtMaterialStyle:
-    ...
-
-
-class QtMaterialCheckable:
-    ...
-
-
-# dummy classes
-
 
 def MATERIAL_DISABLE_THEME_COLORS(self):
     if self.d.useThemeColors == true:
@@ -63,7 +46,7 @@ class QtMaterialRipple(QParallelAnimationGroup):
     def __init__(
         self,
         center: QPoint,
-        overlay: QtMaterialRippleOverlay = None,
+        overlay: "QtMaterialRippleOverlay" = None,
         parent: QObject = None,
     ):
         QParallelAnimationGroup.__init__(self, parent)
@@ -87,7 +70,7 @@ class QtMaterialRipple(QParallelAnimationGroup):
 
         self.finished.connect(self.destroy)
 
-    def setOverlay(self, overlay: QtMaterialRippleOverlay) -> void:
+    def setOverlay(self, overlay: "QtMaterialRippleOverlay") -> void:
         self.m_overlay = overlay
 
     def setRadius(self, radius: qreal) -> void:
@@ -1145,8 +1128,10 @@ class QtMaterialTheme(QObject):
         return self.d.colors.get(key)
 
     def setColor(self, key: QString, color: Union[QColor, Material.Color]) -> void:
-        if isinstance(color, QColor): _c = color
-        else: _c = self.palette[color.value]
+        if isinstance(color, QColor):
+            _c = color
+        else:
+            _c = self.palette[color.value]
         self.d.colors[key] = _c
 
     @staticmethod
@@ -1166,7 +1151,7 @@ class QtMaterialThemePrivate:
 
 
 class QtMaterialStylePrivate:
-    def __init__(self, q: QtMaterialStyle):
+    def __init__(self, q: "QtMaterialStyle"):
         self.q: QtMaterialStyle = q
         self.theme = QtMaterialTheme()
 
@@ -1185,7 +1170,7 @@ class QtMaterialStyle(QCommonStyle):
         self.d.init()
 
     @staticmethod
-    def instance() -> QtMaterialStyle:
+    def instance() -> "QtMaterialStyle":
         instance = QtMaterialStyle()
         return instance
 
@@ -1252,9 +1237,10 @@ class QtMaterialStateTransitionEvent(QEvent):
 
     def __init__(self, type: QtMaterialStateTransitionType) -> void:
         QEvent.__init__(self, QEvent.Type(QEvent.User + 1))
+        self.type = type
 
-    def type(self) -> QtMaterialStateTransitionType:
-        return QEvent.type(self)
+    # def type(self) -> QtMaterialStateTransitionType:
+    #     return QEvent.type(self)
 
 
 class QtMaterialStateTransition(QAbstractTransition):
@@ -1274,7 +1260,7 @@ class QtMaterialStateTransition(QAbstractTransition):
 
 
 class QtMaterialCheckablePrivate:
-    def __init__(self, q: QtMaterialCheckable) -> void:
+    def __init__(self, q: "QtMaterialCheckable") -> void:
         self.q: QtMaterialCheckable = q
         self.rippleOverlay: QtMaterialRippleOverlay = None
         self.checkedIcon: QtMaterialCheckableIcon = None

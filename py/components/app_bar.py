@@ -1,12 +1,8 @@
 from .lib.qtmaterial import *
 
 
-class QtMaterialAppBar:
-    ...
-
-
 class QtMaterialAppBarPrivate:
-    def __init__(self, q: QtMaterialAppBar):
+    def __init__(self, q: "QtMaterialAppBar"):
         self.q: QtMaterialAppBar = q
         self.useThemeColors: bool = None
         self.foregroundColor: QColor = QColor()

@@ -1,4 +1,4 @@
-from py.components.flatbutton import QtMaterialFlatButton
+from .flatbutton import QtMaterialFlatButton
 from .lib.qtmaterial import *
 
 
@@ -147,7 +147,7 @@ class QtMaterialTab(QtMaterialFlatButton):
 
 class QtMaterialTabsPrivate:
     def __init__(self, q):
-        self.q:QtMaterialTabs = q
+        self.q: QtMaterialTabs = q
 
         self.inkBar = QtMaterialTabsInkBar()
         self.tabLayout = QHBoxLayout()
@@ -155,9 +155,9 @@ class QtMaterialTabsPrivate:
         self.inkColor = QColor()
         self.backgroundColor = QColor()
         self.textColor = QColor()
-        self.tab :int= None
-        self.showHalo :bool= None
-        self.useThemeColors :bool= None
+        self.tab: int = None
+        self.showHalo: bool = None
+        self.useThemeColors: bool = None
 
     def init(self) -> void:
         self.inkBar = QtMaterialTabsInkBar(self.q)

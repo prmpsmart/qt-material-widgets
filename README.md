@@ -1,19 +1,25 @@
-# qt-material-widgets python version
+# py
 
 > python version of cpp scripts on qt at the git repo <https://github.com/laserpants/qt-material-widgets>
 >
 > [Details of the cpp version](cpp/qt-material-widgets-master/README.md)
-> Work officially started today 21-10-2021
 >
-> Components/lib of the cpp version converted to py, though each module is not connected yet.
+> Edit following files [py/examples/mainwindow.py](py/examples/mainwindow.py) and [py/examples/main.py](py/examples/main.py) and run [py/test_qt_material.py](py/test_qt_material.py) to see the GUI in action.
+
+# qt_material
+
+> A minimized version containing only the important classes
+> * [QMaterialFlatButton](qt_material/buttons/flatbutton.py)
+> * [QMaterialRaisedButton](qt_material/buttons/raisedbutton.py)
+> * [QMaterialIconButton](qt_material/buttons/iconbutton.py)
+> * [QMaterialRadioButton](qt_material/buttons/radiobutton.py)
+> * [QMaterialCheckBox](qt_material/buttons/checkbox.py)
+> * [QMaterialDrawer](qt_material/drawer/drawer.py)
+> * [QMaterialCircularProgress](qt_material/progress.py)
+> * [QMaterialToggle](qt_material/toggle.py)
+> * [QMaterialTab & QMaterialTabs](qt_material/tabs.py)
 >
->* Each module of the [**components**](py/components) has been completely transcoded to python, they will all be working together after the examples have also been implemented in python.
->
->* The Qt binding for Python used is PySide6 [Qt for Python](https://www.qt.org/qt-for-python).
->
->* The transcoding stage of the project has just been concluded, obviously some of the code used have been deprecated since 2018 that the original code was written using cpp.
->
->* After all the components and examples have been transpiled, the functionality aspect will commence later in the day as the [test_qt_material.py](py/test_qt_material.py) can be run now with all the modules imported.
+> Run [test.py](test.py) to see how it looks and feel
 
 ## Thank you
 

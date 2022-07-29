@@ -1,12 +1,8 @@
 from .lib.qtmaterial import *
 
 
-class QtMaterialSnackbar:
-    ...
-
-
 class QtMaterialSnackbarStateMachine(QStateMachine):
-    def __init__(self, parent: QtMaterialSnackbar):
+    def __init__(self, parent: "QtMaterialSnackbar"):
         QStateMachine.__init__(self, parent)
 
         self.self.m_snackbar = parent
@@ -105,17 +101,17 @@ class QtMaterialSnackbarStateMachine(QStateMachine):
 
 
 class QtMaterialSnackbarPrivate:
-    def __init__(self, q: QtMaterialSnackbar):
-        self.q:QtMaterialSnackbar = q
+    def __init__(self, q: "QtMaterialSnackbar"):
+        self.q: QtMaterialSnackbar = q
         self.stateMachine = QtMaterialSnackbarStateMachine()
         self.backgroundColor = QColor()
         self.textColor = QColor()
         self.messages = QList()
-        self.bgOpacity :qreal= None
-        self.duration :int= None
-        self.boxWidth :int= None
-        self.clickDismiss :bool= None
-        self.useThemeColors :bool= None
+        self.bgOpacity: qreal = None
+        self.duration: int = None
+        self.boxWidth: int = None
+        self.clickDismiss: bool = None
+        self.useThemeColors: bool = None
 
     def init(self) -> void:
         self.stateMachine = QtMaterialSnackbarStateMachine(self.q)

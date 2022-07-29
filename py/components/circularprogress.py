@@ -1,12 +1,8 @@
 from .lib.qtmaterial import *
 
 
-class QtMaterialCircularProgress:
-    ...
-
-
 class QtMaterialCircularProgressDelegate(QObject):
-    def __init__(self, parent: QtMaterialCircularProgress) -> None:
+    def __init__(self, parent: "QtMaterialCircularProgress") -> None:
         QObject.__init__(self, parent)
 
         self.m_progress = parent
@@ -41,7 +37,7 @@ class QtMaterialCircularProgressDelegate(QObject):
 
 
 class QtMaterialCircularProgressPrivate:
-    def __init__(self, q: QtMaterialCircularProgress):
+    def __init__(self, q: "QtMaterialCircularProgress"):
         self.q: QtMaterialCircularProgress = q
         self.delegate: QtMaterialCircularProgressDelegate = None
         self.progressType: Material = None

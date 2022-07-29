@@ -3,12 +3,8 @@ from .lib.qtmaterial import *
 QT_MATERIAL_SLIDER_MARGIN = 30
 
 
-class QtMaterialSlider:
-    ...
-
-
 class QtMaterialSliderThumb(QtMaterialOverlayWidget):
-    def __init__(self, slider: QtMaterialSlider):
+    def __init__(self, slider: "QtMaterialSlider"):
         QtMaterialOverlayWidget.__init__(self, slider.parentWidget())
 
         self.m_slider = slider
@@ -170,7 +166,7 @@ class QtMaterialSliderThumb(QtMaterialOverlayWidget):
 
 
 class QtMaterialSliderTrack(QtMaterialOverlayWidget):
-    def __init__(self, thumb: QtMaterialSliderThumb, slider: QtMaterialSlider):
+    def __init__(self, thumb: QtMaterialSliderThumb, slider: "QtMaterialSlider"):
         QtMaterialOverlayWidget.__init__(self)
         self.m_slider = slider
         self.m_thumb = thumb
@@ -278,7 +274,7 @@ class QtMaterialSliderTrack(QtMaterialOverlayWidget):
 class QtMaterialSliderStateMachine(QStateMachine):
     def __init__(
         self,
-        slider: QtMaterialSlider,
+        slider: "QtMaterialSlider",
         thumb: QtMaterialSliderThumb,
         track: QtMaterialSliderTrack,
     ):
@@ -497,7 +493,7 @@ class QtMaterialSliderStateMachine(QStateMachine):
 
 
 class QtMaterialSliderPrivate:
-    def __init__(self, q: QtMaterialSlider):
+    def __init__(self, q: "QtMaterialSlider"):
         self.q: QtMaterialSlider = q
 
         self.thumbColor = QColor()

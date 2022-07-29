@@ -56,12 +56,8 @@ class QtMaterialAutoCompleteStateMachine(QStateMachine):
         self.m_closingState.addTransition(transition)
 
 
-class QtMaterialAutoComplete:
-    ...
-
-
 class QtMaterialAutoCompletePrivate(QtMaterialTextFieldPrivate):
-    def __init__(self, q: QtMaterialAutoComplete):
+    def __init__(self, q: "QtMaterialAutoComplete"):
         self.q: QtMaterialAutoComplete = q
         self.menu: QWidget = QWidget()
         self.frame: QWidget = QWidget()
@@ -92,7 +88,7 @@ class QtMaterialAutoCompletePrivate(QtMaterialTextFieldPrivate):
 
         self.menu.setLayout(self.menuLayout)
         self.menu.setVisible(false)
-        self.menu.setStyleSheet('background:blue;')
+        self.menu.setStyleSheet("background:blue;")
 
         self.menuLayout.setContentsMargins(0, 0, 0, 0)
         self.menuLayout.setSpacing(0)
@@ -124,9 +120,9 @@ class QtMaterialAutoComplete(QtMaterialTextField):
             for i in self.d.dataSource:
                 if lookup in i:
                     results.push_back(i)
-        
+
         diff: int = results.length() - self.d.menuLayout.count()
-        
+
         font = QFont("Roboto", 12, QFont.Normal)
 
         if diff > 0:

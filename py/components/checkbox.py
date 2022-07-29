@@ -1,12 +1,8 @@
 from .lib.qtmaterial import *
 
 
-class QtMaterialCheckBox:
-    ...
-
-
 class QtMaterialCheckBoxPrivate(QtMaterialCheckablePrivate):
-    def __init__(self, q: QtMaterialCheckBox) -> void:
+    def __init__(self, q: "QtMaterialCheckBox") -> void:
         QtMaterialCheckablePrivate.__init__(self, q)
 
     def init(self) -> void:

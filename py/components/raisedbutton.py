@@ -1,12 +1,8 @@
 from .flatbutton import *
 
 
-class QtMaterialRaisedButton:
-    ...
-
-
 class QtMaterialRaisedButtonPrivate(QtMaterialFlatButtonPrivate):
-    def __init__(self, q: QtMaterialRaisedButton):
+    def __init__(self, q: "QtMaterialRaisedButton"):
         QtMaterialFlatButtonPrivate.__init__(self, q)
 
         self.shadowStateMachine: QStateMachine = None

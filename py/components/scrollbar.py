@@ -1,12 +1,8 @@
 from .lib.qtmaterial import *
 
 
-class QtMaterialScrollBar:
-    ...
-
-
 class QtMaterialScrollBarStateMachine(QStateMachine):
-    def __init__(self, parent: QtMaterialScrollBar) -> None:
+    def __init__(self, parent: "QtMaterialScrollBar") -> None:
         QStateMachine.__init__(self, parent)
 
         self.m_scrollBar = parent
@@ -44,14 +40,14 @@ class QtMaterialScrollBarStateMachine(QStateMachine):
 
 
 class QtMaterialScrollBarPrivate:
-    def __init__(self, q: QtMaterialScrollBar):
-        self.q :QtMaterialScrollBar= q
+    def __init__(self, q: "QtMaterialScrollBar"):
+        self.q: QtMaterialScrollBar = q
 
         self.backgroundColor = QColor("blue")
         self.sliderColor = QColor()
         self.canvasColor = QColor()
-        self.hideOnMouseOut :bool= None
-        self.useThemeColors :bool= None
+        self.hideOnMouseOut: bool = None
+        self.useThemeColors: bool = None
 
     def init(self) -> void:
         self.stateMachine = QtMaterialScrollBarStateMachine(self.q)
