@@ -19,6 +19,8 @@
 > * [QMaterialToggle](qt_material/toggle.py)
 > * [QMaterialTab & QMaterialTabs](qt_material/tabs.py)
 >
+> ![at_m.gif](qt_m.gif)
+>
 > Run [test.py](test.py) to see how it looks and feel
 
 ## Thank you
